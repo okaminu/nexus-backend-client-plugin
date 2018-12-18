@@ -9,7 +9,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 
-class WorklogStartEndServiceAdapter(): WorklogStartEndService {
+class WorklogStartEndServiceClient: WorklogStartEndService {
     override fun getProjectOfStartedWork(collaboratorId: String): Project {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
