@@ -10,6 +10,9 @@ import java.net.http.HttpResponse
 
 
 class WorklogStartEndServiceClient: WorklogStartEndService {
+
+    private val baseUrl = "http://127.0.0.1:8070"
+
     override fun getProjectOfStartedWork(collaboratorId: String): Project {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -36,7 +39,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun endAllStartedWorkWhereWorkTimeEnded() {
         val request = HttpRequest.newBuilder()
-            .uri(URI("http://127.0.0.1:8070/worklog/status/end/all-started-work-where-worktime-ended"))
+            .uri(URI("$baseUrl/worklog/status/end/all-started-work-where-worktime-ended"))
             .POST(HttpRequest.BodyPublishers.noBody())
             .build()
 
