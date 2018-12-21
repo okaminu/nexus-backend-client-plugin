@@ -1,4 +1,4 @@
-package lt.boldadmin.nexus.plugin.backendclient
+package lt.boldadmin.nexus.plugin.backendclient.service.worklog.status
 
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
