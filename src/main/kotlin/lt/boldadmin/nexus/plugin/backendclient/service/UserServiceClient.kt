@@ -81,6 +81,13 @@ class UserServiceClient: UserService {
     }
 
     override fun isProjectNameUnique(projectName: String, projectId: String, userId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/user/$userId/project/$projectId/name/$projectName/is-unique"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        response.body()
+        return ObjectMapper().readValue(response.body(), Boolean::class.java)
     }
 }
