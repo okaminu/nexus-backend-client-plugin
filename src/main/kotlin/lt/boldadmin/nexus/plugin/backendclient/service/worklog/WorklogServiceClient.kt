@@ -14,7 +14,14 @@ class WorklogServiceClient: WorklogService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun getByCollaboratorId(id: String): Collection<Worklog> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/collaborator/$id"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        response.body()
+        return ObjectMapper().readValue(response.body(), object: TypeReference<Collection<Worklog>>(){})
     }
 
     override fun getByProjectId(id: String): Collection<Worklog> {

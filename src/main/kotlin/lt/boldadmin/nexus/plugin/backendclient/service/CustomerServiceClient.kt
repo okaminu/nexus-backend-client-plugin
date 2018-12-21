@@ -32,7 +32,12 @@ class CustomerServiceClient: CustomerService {
     }
 
     override fun update(id: String, attributeName: String, attributeValue: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/customer/$id/attribute/$attributeName/update"))
+            .POST(HttpRequest.BodyPublishers.ofString(attributeValue))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun updateOrderNumber(customerId: String, orderNumber: Short) {
