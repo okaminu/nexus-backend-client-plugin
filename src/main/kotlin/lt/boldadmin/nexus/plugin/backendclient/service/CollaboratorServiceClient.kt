@@ -23,7 +23,6 @@ class CollaboratorServiceClient: CollaboratorService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Collaborator::class.java)
 
     }

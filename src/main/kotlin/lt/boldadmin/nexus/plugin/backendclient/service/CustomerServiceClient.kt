@@ -27,7 +27,6 @@ class CustomerServiceClient: CustomerService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Customer::class.java)
     }
 

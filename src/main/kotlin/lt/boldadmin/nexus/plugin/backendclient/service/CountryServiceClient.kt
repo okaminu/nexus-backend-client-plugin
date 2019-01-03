@@ -21,7 +21,6 @@ class CountryServiceClient: CountryService {
                 .build()
 
             val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-            response.body()
             return ObjectMapper().readValue(response.body(), object : TypeReference<Collection<Country>>() {})
         }
 }

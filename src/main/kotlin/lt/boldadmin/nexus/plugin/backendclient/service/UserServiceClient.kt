@@ -27,7 +27,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
@@ -38,7 +37,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
@@ -53,7 +51,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Boolean::class.java)
     }
 
@@ -64,7 +61,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Boolean::class.java)
     }
 
@@ -75,7 +71,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Boolean::class.java)
 
     }
@@ -87,7 +82,6 @@ class UserServiceClient: UserService {
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        response.body()
         return ObjectMapper().readValue(response.body(), Boolean::class.java)
     }
 }
