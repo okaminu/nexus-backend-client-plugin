@@ -1,5 +1,6 @@
 package lt.boldadmin.nexus.plugin.backendclient.service.worklog.status
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
@@ -14,27 +15,62 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun getProjectOfStartedWork(collaboratorId: String): Project {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/project-of-started-work"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Project::class.java)
     }
 
     override fun start(collaborator: Collaborator, project: Project) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/status/start"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun start(collaborator: Collaborator, project: Project, timestamp: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/status/start/timestamp/$timestamp"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun hasWorkStarted(collaboratorId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/has-work-started"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 
     override fun end(collaborator: Collaborator) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/status/end"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun end(collaborator: Collaborator, timestamp: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/status/end/timestamp/$timestamp"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun endAllStartedWorkWhereWorkTimeEnded() {
@@ -47,7 +83,16 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     }
 
     override fun hasWorkEnded(collaboratorId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/has-work-ended"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 
 

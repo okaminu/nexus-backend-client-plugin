@@ -1,5 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.service
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.StartedProjectWorkTokenService
 import lt.boldadmin.nexus.api.type.entity.Project
 import java.net.URI
@@ -12,19 +14,47 @@ class StartedProjectWorkTokenServiceClient: StartedProjectWorkTokenService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun findTokenById(projectId: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/started-project-work-token/project/$projectId/token"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
     }
 
     override fun findIdByToken(token: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/started-project-work-token/token/$token/id"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
     }
 
     override fun findProjectByToken(token: String): Project {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/started-project-work-token/token/$token/project"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Project::class.java)
     }
 
     override fun findWorkingCollaboratorIdsByToken(token: String): List<String?> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/started-project-work-token/token/$token/collaborators/working"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), object: TypeReference<List<String?>>(){})
     }
 
     override fun existsById(projectId: String): Boolean {

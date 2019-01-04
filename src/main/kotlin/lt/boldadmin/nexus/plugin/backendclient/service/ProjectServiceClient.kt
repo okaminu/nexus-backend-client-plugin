@@ -13,7 +13,13 @@ class ProjectServiceClient: ProjectService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun createWithDefaults(userId: String): Project {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/project/user/$userId/create-with-defaults"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Project::class.java)
     }
 
     override fun getById(projectId: String): Project {
@@ -36,6 +42,11 @@ class ProjectServiceClient: ProjectService {
     }
 
     override fun updateOrderNumber(projectId: String, orderNumber: Short) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/project/$projectId/attribute/order-number/update"))
+            .POST(HttpRequest.BodyPublishers.ofString(orderNumber.toString()))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 }

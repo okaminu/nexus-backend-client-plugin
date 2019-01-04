@@ -44,6 +44,15 @@ class WorklogServiceClient: WorklogService {
     }
 
     override fun existsByProjectIdAndCollaboratorId(projectId: String, collaboratorId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/project/$projectId/collaborator/$collaboratorId/exists"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 }

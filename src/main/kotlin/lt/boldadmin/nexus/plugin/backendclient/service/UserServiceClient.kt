@@ -13,11 +13,22 @@ class UserServiceClient: UserService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun save(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/user/save"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(user)))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun createWithDefaults(): User {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/user/create-with-defaults"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
     override fun getById(id: String): User {
@@ -41,7 +52,13 @@ class UserServiceClient: UserService {
     }
 
     override fun getByProjectId(projectId: String): User {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/user/project/$projectId"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
     override fun doesUserHaveCustomer(userId: String, customerId: String): Boolean {

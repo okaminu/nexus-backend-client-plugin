@@ -24,13 +24,34 @@ class WorklogAuthServiceClient: WorklogAuthService {
     }
 
     override fun doesCollaboratorHaveWorkLogInterval(collaboratorId: String, intervalId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 
     override fun doesCollaboratorHaveWorkLogIntervals(
         collaboratorId: String,
         intervalIds: Collection<String>
     ): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (intervalIds.isEmpty()) return false
+
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/intervals/${intervalIds.joinToString(",")}" +
+                    "/collaborator/$collaboratorId/has-intervals"))
+            .GET()
+            .build()
+
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 }

@@ -13,11 +13,22 @@ class CustomerServiceClient: CustomerService {
     private val baseUrl = "http://127.0.0.1:8070"
 
     override fun save(customer: Customer) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/customer/save"))
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(customer)))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun createWithDefaults(userId: String): Customer {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/customer/user/$userId/create-with-defaults"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Customer::class.java)
     }
 
     override fun getById(id: String): Customer {
@@ -40,6 +51,11 @@ class CustomerServiceClient: CustomerService {
     }
 
     override fun updateOrderNumber(customerId: String, orderNumber: Short) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/customer/$customerId/attribute/order-number/update"))
+            .POST(HttpRequest.BodyPublishers.ofString(orderNumber.toString()))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 }

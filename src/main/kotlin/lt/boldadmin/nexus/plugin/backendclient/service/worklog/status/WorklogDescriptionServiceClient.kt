@@ -20,10 +20,20 @@ class WorklogDescriptionServiceClient: WorklogDescriptionService {
     }
 
     override fun updateDescription(intervalId: String, description: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/$intervalId/status/description/update"))
+            .POST(HttpRequest.BodyPublishers.ofString(description))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun updateDescriptionByCollaboratorId(collaboratorId: String, description: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/description/update"))
+            .POST(HttpRequest.BodyPublishers.ofString(description))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 }
