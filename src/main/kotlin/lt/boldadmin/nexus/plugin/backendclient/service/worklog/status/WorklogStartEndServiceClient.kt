@@ -43,7 +43,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
             .POST(HttpRequest.BodyPublishers.noBody())
             .build()
 
-        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     override fun hasWorkEnded(collaboratorId: String): Boolean {

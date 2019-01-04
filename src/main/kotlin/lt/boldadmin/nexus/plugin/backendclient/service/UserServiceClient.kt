@@ -50,8 +50,11 @@ class UserServiceClient: UserService {
             .GET()
             .build()
 
-        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 
     override fun doesUserHaveProject(userId: String, projectId: String): Boolean {
@@ -60,8 +63,11 @@ class UserServiceClient: UserService {
             .GET()
             .build()
 
-        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 
     override fun doesUserHaveCollaborator(userId: String, collaboratorId: String): Boolean {
@@ -70,8 +76,11 @@ class UserServiceClient: UserService {
             .GET()
             .build()
 
-        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
 
     }
 
@@ -81,7 +90,10 @@ class UserServiceClient: UserService {
             .GET()
             .build()
 
-        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 }

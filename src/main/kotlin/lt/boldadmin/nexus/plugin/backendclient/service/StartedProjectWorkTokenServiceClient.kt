@@ -1,6 +1,5 @@
 package lt.boldadmin.nexus.plugin.backendclient.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.StartedProjectWorkTokenService
 import lt.boldadmin.nexus.api.type.entity.Project
 import java.net.URI
@@ -34,7 +33,10 @@ class StartedProjectWorkTokenServiceClient: StartedProjectWorkTokenService {
             .GET()
             .build()
 
-        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+        return HttpClient.newBuilder()
+            .build()
+            .send(request, HttpResponse.BodyHandlers.ofString())
+            .body()!!
+            .toBoolean()
     }
 }

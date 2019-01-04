@@ -24,7 +24,6 @@ class CollaboratorServiceClient: CollaboratorService {
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
         return ObjectMapper().readValue(response.body(), Collaborator::class.java)
-
     }
 
     override fun getByMobileNumber(number: String): Collaborator {

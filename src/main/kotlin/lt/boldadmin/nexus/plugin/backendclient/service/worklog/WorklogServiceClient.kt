@@ -34,7 +34,13 @@ class WorklogServiceClient: WorklogService {
     }
 
     override fun getIntervalEndpoints(intervalId: String): Collection<Worklog> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/worklog/interval/$intervalId/endpoints"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), object: TypeReference<Collection<Worklog>>(){})
     }
 
     override fun existsByProjectIdAndCollaboratorId(projectId: String, collaboratorId: String): Boolean {
