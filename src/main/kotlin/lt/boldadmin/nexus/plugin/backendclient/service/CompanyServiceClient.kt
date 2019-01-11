@@ -21,14 +21,14 @@ class CompanyServiceClient: CompanyService {
         HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
     }
 
-    override fun getByName(name: String): Company? {
+    override fun existsByName(name: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/company/name/$name"))
+            .uri(URI("$baseUrl/company/name/$name/exists"))
             .GET()
             .build()
 
         val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
-        return ObjectMapper().readValue(response.body(), Company::class.java)
+        return ObjectMapper().readValue(response.body(), Boolean::class.java)
     }
 
 }
