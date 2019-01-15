@@ -41,7 +41,7 @@ class UserServiceClient: UserService {
         return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
-    override fun getByEmail(email: String): User? {
+    override fun getByEmail(email: String): User {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/user/email/$email"))
             .GET()
