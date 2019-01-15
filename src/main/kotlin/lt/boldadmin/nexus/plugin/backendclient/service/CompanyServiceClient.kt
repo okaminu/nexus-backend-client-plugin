@@ -15,6 +15,7 @@ class CompanyServiceClient: CompanyService {
     override fun save(company: Company) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/company/save"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(company)))
             .build()
 

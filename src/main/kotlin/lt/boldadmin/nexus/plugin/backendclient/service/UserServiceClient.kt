@@ -15,6 +15,7 @@ class UserServiceClient: UserService {
     override fun save(user: User) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/user/save"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(user)))
             .build()
 

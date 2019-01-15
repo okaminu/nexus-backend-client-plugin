@@ -15,6 +15,7 @@ class CollaboratorServiceClient: CollaboratorService {
     override fun save(collaborator: Collaborator) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/collaborator/save"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
 

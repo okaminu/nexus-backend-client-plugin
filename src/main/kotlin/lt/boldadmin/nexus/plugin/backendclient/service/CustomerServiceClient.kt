@@ -15,6 +15,7 @@ class CustomerServiceClient: CustomerService {
     override fun save(customer: Customer) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/customer/save"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(customer)))
             .build()
 

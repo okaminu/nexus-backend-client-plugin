@@ -27,6 +27,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     override fun start(collaborator: Collaborator, project: Project) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/worklog/status/start"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
             .build()
 
@@ -36,6 +37,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     override fun start(collaborator: Collaborator, project: Project, timestamp: Long) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/worklog/status/start/timestamp/$timestamp"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
             .build()
 
@@ -58,6 +60,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     override fun end(collaborator: Collaborator) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/worklog/status/end"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
 
@@ -67,6 +70,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
     override fun end(collaborator: Collaborator, timestamp: Long) {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/worklog/status/end/timestamp/$timestamp"))
+            .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
 
