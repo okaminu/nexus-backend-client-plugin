@@ -51,6 +51,16 @@ class UserServiceClient: UserService {
         return ObjectMapper().readValue(response.body(), User::class.java)
     }
 
+    override fun existsByEmail(email: String): Boolean {
+        val request = HttpRequest.newBuilder()
+            .uri(URI("$baseUrl/user/email/$email/exists"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+    }
+
     override fun getByProjectId(projectId: String): User {
         val request = HttpRequest.newBuilder()
             .uri(URI("$baseUrl/user/project/$projectId"))
