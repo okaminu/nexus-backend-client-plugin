@@ -11,6 +11,23 @@ import java.net.http.HttpResponse
 
 class StartedProjectWorkTokenServiceClient: StartedProjectWorkTokenService {
 
+    override fun generateAndStore(projectId: String) {
+        val request = HttpRequest.newBuilder()
+            .uri(createUri("/started-project-work-token/generate-and-store"))
+            .POST(HttpRequest.BodyPublishers.ofString(projectId))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
+    }
+
+    override fun deleteById(projectId: String) {
+        val request = HttpRequest.newBuilder()
+            .uri(createUri("/started-project-work-token/delete"))
+            .POST(HttpRequest.BodyPublishers.ofString(projectId))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())     }
+
     override fun findTokenById(projectId: String): String {
         val request = HttpRequest.newBuilder()
             .uri(createUri("/started-project-work-token/project/$projectId/token"))
