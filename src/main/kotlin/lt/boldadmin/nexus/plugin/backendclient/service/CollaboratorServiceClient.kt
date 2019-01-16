@@ -3,18 +3,16 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import java.net.URI
+import lt.boldadmin.nexus.plugin.backendclient.factory.createUri
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 class CollaboratorServiceClient: CollaboratorService {
 
-    private val baseUrl = "http://127.0.0.1:8070"
-
     override fun save(collaborator: Collaborator) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/save"))
+            .uri(createUri("/collaborator/save"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
@@ -24,7 +22,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun getById(id: String): Collaborator {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/$id"))
+            .uri(createUri("/collaborator/$id"))
             .GET()
             .build()
 
@@ -34,7 +32,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun getByMobileNumber(number: String): Collaborator {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/mobile-number/$number"))
+            .uri(createUri("/collaborator/mobile-number/$number"))
             .GET()
             .build()
 
@@ -44,7 +42,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun createWithDefaults(): Collaborator {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/create-with-defaults"))
+            .uri(createUri("/collaborator/create-with-defaults"))
             .GET()
             .build()
 
@@ -54,7 +52,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun existsById(id: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/$id/exists"))
+            .uri(createUri("/collaborator/$id/exists"))
             .GET()
             .build()
 
@@ -67,7 +65,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun existsByMobileNumber(number: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/mobile-number/$number/exists"))
+            .uri(createUri("/collaborator/mobile-number/$number/exists"))
             .GET()
             .build()
 
@@ -80,7 +78,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun update(id: String, attributeName: String, attributeValue: String) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/$id/attribute/$attributeName/update"))
+            .uri(createUri("/collaborator/$id/attribute/$attributeName/update"))
             .POST(HttpRequest.BodyPublishers.ofString(attributeValue))
             .build()
 
@@ -89,7 +87,7 @@ class CollaboratorServiceClient: CollaboratorService {
 
     override fun updateOrderNumber(collaboratorId: String, orderNumber: Short) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/collaborator/$collaboratorId/attribute/order-number/update"))
+            .uri(createUri("/collaborator/$collaboratorId/attribute/order-number/update"))
             .POST(HttpRequest.BodyPublishers.ofString(orderNumber.toString()))
             .build()
 

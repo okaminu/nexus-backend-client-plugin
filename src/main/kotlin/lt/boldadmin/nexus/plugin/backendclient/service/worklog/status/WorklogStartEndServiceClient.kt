@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
-import java.net.URI
+import lt.boldadmin.nexus.plugin.backendclient.factory.createUri
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
@@ -12,11 +12,9 @@ import java.net.http.HttpResponse
 
 class WorklogStartEndServiceClient: WorklogStartEndService {
 
-    private val baseUrl = "http://127.0.0.1:8070"
-
     override fun getProjectOfStartedWork(collaboratorId: String): Project {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/project-of-started-work"))
+            .uri(createUri("/worklog/collaborator/$collaboratorId/status/project-of-started-work"))
             .GET()
             .build()
 
@@ -26,7 +24,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun start(collaborator: Collaborator, project: Project) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/status/start"))
+            .uri(createUri("/worklog/status/start"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
             .build()
@@ -36,7 +34,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun start(collaborator: Collaborator, project: Project, timestamp: Long) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/status/start/timestamp/$timestamp"))
+            .uri(createUri("/worklog/status/start/timestamp/$timestamp"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(Pair(collaborator, project))))
             .build()
@@ -46,7 +44,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun hasWorkStarted(collaboratorId: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/has-work-started"))
+            .uri(createUri("/worklog/collaborator/$collaboratorId/status/has-work-started"))
             .GET()
             .build()
 
@@ -59,7 +57,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun end(collaborator: Collaborator) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/status/end"))
+            .uri(createUri("/worklog/status/end"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
@@ -69,7 +67,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun end(collaborator: Collaborator, timestamp: Long) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/status/end/timestamp/$timestamp"))
+            .uri(createUri("/worklog/status/end/timestamp/$timestamp"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(collaborator)))
             .build()
@@ -79,7 +77,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun endAllStartedWorkWhereWorkTimeEnded() {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/status/end/all-started-work-where-worktime-ended"))
+            .uri(createUri("/worklog/status/end/all-started-work-where-worktime-ended"))
             .POST(HttpRequest.BodyPublishers.noBody())
             .build()
 
@@ -88,7 +86,7 @@ class WorklogStartEndServiceClient: WorklogStartEndService {
 
     override fun hasWorkEnded(collaboratorId: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/collaborator/$collaboratorId/status/has-work-ended"))
+            .uri(createUri("/worklog/collaborator/$collaboratorId/status/has-work-ended"))
             .GET()
             .build()
 

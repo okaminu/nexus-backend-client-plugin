@@ -1,18 +1,16 @@
 package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 
 import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
-import java.net.URI
+import lt.boldadmin.nexus.plugin.backendclient.factory.createUri
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 class WorklogAuthServiceClient: WorklogAuthService {
 
-    private val baseUrl = "http://127.0.0.1:8070"
-
     override fun doesUserHaveWorkLogInterval(userId: String, intervalId: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/interval/$intervalId/user/$userId/has-interval"))
+            .uri(createUri("/worklog/interval/$intervalId/user/$userId/has-interval"))
             .GET()
             .build()
 
@@ -25,7 +23,7 @@ class WorklogAuthServiceClient: WorklogAuthService {
 
     override fun doesCollaboratorHaveWorkLogInterval(collaboratorId: String, intervalId: String): Boolean {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval"))
+            .uri(createUri("/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval"))
             .GET()
             .build()
 
@@ -43,7 +41,7 @@ class WorklogAuthServiceClient: WorklogAuthService {
         if (intervalIds.isEmpty()) return false
 
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/worklog/intervals/${intervalIds.joinToString(",")}" +
+            .uri(createUri("/worklog/intervals/${intervalIds.joinToString(",")}" +
                     "/collaborator/$collaboratorId/has-intervals"))
             .GET()
             .build()

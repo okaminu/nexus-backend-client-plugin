@@ -3,18 +3,16 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import lt.boldadmin.nexus.api.service.CustomerService
 import lt.boldadmin.nexus.api.type.entity.Customer
-import java.net.URI
+import lt.boldadmin.nexus.plugin.backendclient.factory.createUri
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 class CustomerServiceClient: CustomerService {
 
-    private val baseUrl = "http://127.0.0.1:8070"
-
     override fun save(customer: Customer) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/customer/save"))
+            .uri(createUri("/customer/save"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(customer)))
             .build()
@@ -24,7 +22,7 @@ class CustomerServiceClient: CustomerService {
 
     override fun createWithDefaults(userId: String): Customer {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/customer/user/$userId/create-with-defaults"))
+            .uri(createUri("/customer/user/$userId/create-with-defaults"))
             .GET()
             .build()
 
@@ -34,7 +32,7 @@ class CustomerServiceClient: CustomerService {
 
     override fun getById(id: String): Customer {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/customer/$id"))
+            .uri(createUri("/customer/$id"))
             .GET()
             .build()
 
@@ -44,7 +42,7 @@ class CustomerServiceClient: CustomerService {
 
     override fun update(id: String, attributeName: String, attributeValue: String) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/customer/$id/attribute/$attributeName/update"))
+            .uri(createUri("/customer/$id/attribute/$attributeName/update"))
             .POST(HttpRequest.BodyPublishers.ofString(attributeValue))
             .build()
 
@@ -53,7 +51,7 @@ class CustomerServiceClient: CustomerService {
 
     override fun updateOrderNumber(customerId: String, orderNumber: Short) {
         val request = HttpRequest.newBuilder()
-            .uri(URI("$baseUrl/customer/$customerId/attribute/order-number/update"))
+            .uri(createUri("/customer/$customerId/attribute/order-number/update"))
             .POST(HttpRequest.BodyPublishers.ofString(orderNumber.toString()))
             .build()
 
