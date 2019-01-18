@@ -19,7 +19,7 @@ class WorklogDescriptionServiceClient: WorklogDescriptionService {
 
     override fun updateDescription(intervalId: String, description: String) {
         val request = HttpRequest.newBuilder()
-            .uri(createUri("/$intervalId/status/description/update"))
+            .uri(createUri("/worklog/interval/$intervalId/status/description/update"))
             .POST(HttpRequest.BodyPublishers.ofString(description))
             .build()
 
