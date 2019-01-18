@@ -10,6 +10,15 @@ import java.net.http.HttpResponse
 
 class UserServiceClient: UserService {
 
+    override fun existsAny(): Boolean {
+        val request = HttpRequest.newBuilder()
+            .uri(createUri("/user/exists-any"))
+            .GET()
+            .build()
+
+        val response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString())
+        return ObjectMapper().readValue(response.body(), Boolean::class.java)
+    }
 
     override fun save(user: User) {
         val request = HttpRequest.newBuilder()
