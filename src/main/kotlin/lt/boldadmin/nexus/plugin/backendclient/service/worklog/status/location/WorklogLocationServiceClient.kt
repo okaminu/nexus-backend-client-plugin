@@ -13,7 +13,7 @@ class WorklogLocationServiceClient : WorklogLocationService {
 
     override fun logWork(collaborator: Collaborator, collaboratorLocation: Location) {
         val request = HttpRequest.newBuilder()
-            .uri(createUri("worklog/status/log-work/location"))
+            .uri(createUri("/worklog/status/log-work/location"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(
                     ObjectMapper().writeValueAsString(Pair(collaborator, collaboratorLocation)))

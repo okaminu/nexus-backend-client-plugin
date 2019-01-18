@@ -12,7 +12,7 @@ class WorklogMessageServiceClient: WorklogMessageService {
 
     override fun logWork(message: Message) {
         val request = HttpRequest.newBuilder()
-            .uri(createUri("worklog/status/log-work/message"))
+            .uri(createUri("/worklog/status/log-work/message"))
             .headers("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(message)))
             .build()
