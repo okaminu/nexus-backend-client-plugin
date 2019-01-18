@@ -11,6 +11,16 @@ import java.net.http.HttpResponse
 
 class WorklogServiceClient: WorklogService {
 
+    override fun save(worklog: Worklog) {
+        val request = HttpRequest.newBuilder()
+            .uri(createUri("/worklog/save"))
+            .headers("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(worklog)))
+            .build()
+
+        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.discarding())
+    }
+
     override fun getByCollaboratorId(id: String): Collection<Worklog> {
         val request = HttpRequest.newBuilder()
             .uri(createUri("/worklog/collaborator/$id"))
