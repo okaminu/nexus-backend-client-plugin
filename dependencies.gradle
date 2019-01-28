@@ -1,6 +1,7 @@
 apply from: 'aws-credentials.gradle'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     repositories {
         maven {
