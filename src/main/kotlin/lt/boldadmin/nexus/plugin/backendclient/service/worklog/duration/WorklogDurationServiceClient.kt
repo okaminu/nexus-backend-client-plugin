@@ -7,6 +7,9 @@ class WorklogDurationServiceClient: WorklogDurationService {
 
     override fun measureDuration(intervalId: String) = get("/worklog/interval/$intervalId/duration", Long::class.java)
 
-    override fun sumWorkDurations(workLogIntervalIds: Collection<String>)
-        = get("/worklog/intervals/${workLogIntervalIds.joinToString(",")}/durations-sum", Long::class.java)
+    override fun sumWorkDurations(workLogIntervalIds: Collection<String>): Long {
+        if (workLogIntervalIds.isEmpty()) return 0
+
+        return get("/worklog/intervals/${workLogIntervalIds.joinToString(",")}/durations-sum", Long::class.java)
+    }
 }

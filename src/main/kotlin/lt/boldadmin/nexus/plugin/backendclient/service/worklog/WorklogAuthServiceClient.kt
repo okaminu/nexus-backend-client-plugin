@@ -12,6 +12,10 @@ class WorklogAuthServiceClient: WorklogAuthService {
         = get("/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval", Boolean::class.java)
 
     override fun doesCollaboratorHaveWorkLogIntervals(collaboratorId: String, intervalIds: Collection<String>)
-        = get("/worklog/intervals/${intervalIds.joinToString(",")}" +
-        "/collaborator/$collaboratorId/has-intervals", Boolean::class.java)
+        : Boolean {
+            if (intervalIds.isEmpty()) return false
+
+            return get("/worklog/intervals/${intervalIds.joinToString(",")}" +
+                "/collaborator/$collaboratorId/has-intervals", Boolean::class.java)
+    }
 }

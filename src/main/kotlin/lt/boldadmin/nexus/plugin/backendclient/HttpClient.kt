@@ -13,7 +13,15 @@ fun <T>get(path: String, typeReference: TypeReference<T>): T = ObjectMapper().re
 
 fun <T>post(path: String, value: T) = post(path, ObjectMapper().writeValueAsString(value))
 
-fun <T>postJson(path: String, value: T) = postJson(path, ObjectMapper().writeValueAsString(value))
+fun <T>postJson(path: String, value: T)  {
+    val request = HttpRequest.newBuilder()
+        .uri(createUri(path))
+        .headers("Content-Type", "application/json")
+        .POST(HttpRequest.BodyPublishers.ofString(ObjectMapper().writeValueAsString(value)))
+        .build()
+
+    post(request)
+}
 
 fun post(path: String, value: String) {
     val request = HttpRequest.newBuilder()
@@ -28,16 +36,6 @@ fun postWithoutBody(path: String) {
     val request = HttpRequest.newBuilder()
         .uri(createUri(path))
         .POST(HttpRequest.BodyPublishers.noBody())
-        .build()
-
-    post(request)
-}
-
-fun postJson(path: String, value: String) {
-    val request = HttpRequest.newBuilder()
-        .uri(createUri(path))
-        .headers("Content-Type", "application/json")
-        .POST(HttpRequest.BodyPublishers.ofString(value))
         .build()
 
     post(request)
