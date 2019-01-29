@@ -7,7 +7,6 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 class BackendHttpClient(
-    private val requestBuilder: HttpRequest.Builder = HttpRequest.newBuilder(),
     private val httpClient: HttpClient = HttpClient.newBuilder().build(),
     private val objectMapper: ObjectMapper = ObjectMapper(),
     private val backendUriFactory: BackendUriFactory = BackendUriFactory()
@@ -23,7 +22,7 @@ class BackendHttpClient(
 
     fun <T> postJson(path: String, value: T) {
         post(
-            requestBuilder.uri(backendUriFactory.create(path))
+            createRequestBuilder(path)
                 .headers("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(value)))
                 .build()
@@ -32,7 +31,7 @@ class BackendHttpClient(
 
     fun post(path: String, value: String) {
         post(
-            requestBuilder.uri(backendUriFactory.create(path))
+            createRequestBuilder(path)
                 .POST(HttpRequest.BodyPublishers.ofString(value))
                 .build()
         )
@@ -40,7 +39,7 @@ class BackendHttpClient(
 
     fun postWithoutBody(path: String) {
         post(
-            requestBuilder.uri(backendUriFactory.create(path))
+            createRequestBuilder(path)
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build()
         )
@@ -48,10 +47,12 @@ class BackendHttpClient(
 
     private fun get(path: String) =
         get(
-            requestBuilder.uri(backendUriFactory.create(path))
+            createRequestBuilder(path)
                 .GET()
                 .build()
         )
+
+    private fun createRequestBuilder(path: String) = HttpRequest.newBuilder().uri(backendUriFactory.create(path))
 
     private fun get(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
 
