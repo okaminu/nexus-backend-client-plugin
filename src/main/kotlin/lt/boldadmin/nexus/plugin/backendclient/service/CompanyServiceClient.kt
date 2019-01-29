@@ -2,13 +2,12 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 
 import lt.boldadmin.nexus.api.service.CompanyService
 import lt.boldadmin.nexus.api.type.entity.Company
-import lt.boldadmin.nexus.plugin.backendclient.get
-import lt.boldadmin.nexus.plugin.backendclient.postJson
+import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class CompanyServiceClient: CompanyService {
+class CompanyServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): CompanyService {
 
-    override fun save(company: Company) = postJson("/company/save", company)
+    override fun save(company: Company) = httpClient.postJson("/company/save", company)
 
-    override fun existsByName(name: String) = get("/company/name/$name/exists", Boolean::class.java)
+    override fun existsByName(name: String) = httpClient.get("/company/name/$name/exists", Boolean::class.java)
 
 }
