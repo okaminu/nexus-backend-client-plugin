@@ -15,10 +15,10 @@ class StartedProjectWorkTokenServiceClient(private val httpClient: BackendHttpCl
         = httpClient.post("/started-project-work-token/delete", projectId)
 
     override fun findTokenById(projectId: String)
-        = httpClient.get("/started-project-work-token/project/$projectId/token", String::class.java)
+        = httpClient.get("/started-project-work-token/project/$projectId/token")
 
     override fun findIdByToken(token: String)
-        = httpClient.get("/started-project-work-token/token/$token/id", String::class.java)
+        = httpClient.get("/started-project-work-token/token/$token/id")
 
     override fun findProjectByToken(token: String)
         = httpClient.get("/started-project-work-token/token/$token/project", Project::class.java)

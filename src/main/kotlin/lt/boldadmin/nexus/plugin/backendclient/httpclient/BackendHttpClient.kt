@@ -14,12 +14,16 @@ class BackendHttpClient(
     private val objectMapper: ObjectMapper,
     private val backendAddressProvider: BackendAddressProvider
 ) {
-    fun <T> get(path: String, clazz: Class<T>) = objectMapper.readValue(get(path).body(), clazz)!!
+    fun <T> get(path: String, clazz: Class<T>) = objectMapper.readValue(get(path), clazz)!!
 
-    fun <T> get(path: String, typeReference: TypeReference<T>): T = objectMapper.readValue(
-        get(path).body(),
-        typeReference
-    )
+    fun <T> get(path: String, typeReference: TypeReference<T>): T = objectMapper.readValue(get(path), typeReference)
+
+    fun get(path: String) =
+        get(
+            createRequestBuilder(path)
+                .GET()
+                .build()
+        ).body()!!
 
     fun <T> post(path: String, value: T) = post(path, objectMapper.writeValueAsString(value))
 
@@ -47,13 +51,6 @@ class BackendHttpClient(
                 .build()
         )
     }
-
-    private fun get(path: String) =
-        get(
-            createRequestBuilder(path)
-                .GET()
-                .build()
-        )
 
     private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
 
