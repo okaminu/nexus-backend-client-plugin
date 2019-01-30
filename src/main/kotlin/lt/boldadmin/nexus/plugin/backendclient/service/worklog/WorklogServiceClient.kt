@@ -5,7 +5,7 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class WorklogServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): WorklogService {
+class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogService {
 
     override fun save(worklog: Worklog) = httpClient.postJson("/worklog/save", worklog)
 

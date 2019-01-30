@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class CollaboratorServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): CollaboratorService {
+class CollaboratorServiceClient(private val httpClient: BackendHttpClient): CollaboratorService {
 
     override fun save(collaborator: Collaborator) = httpClient.post("/collaborator/save", collaborator)
 

@@ -3,7 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog.status
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogDescriptionService
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class WorklogDescriptionServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): WorklogDescriptionService {
+class WorklogDescriptionServiceClient(private val httpClient: BackendHttpClient): WorklogDescriptionService {
 
     override fun getDescription(intervalId: String)
         = httpClient.get("/worklog/interval/$intervalId/status/description", String::class.java)

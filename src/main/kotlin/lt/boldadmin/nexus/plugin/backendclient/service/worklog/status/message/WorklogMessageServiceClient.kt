@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.worklog.status.message.WorklogMessageServi
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class WorklogMessageServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): WorklogMessageService {
+class WorklogMessageServiceClient(private val httpClient: BackendHttpClient): WorklogMessageService {
 
     override fun logWork(message: Message) = httpClient.postJson("/worklog/status/log-work/message", message)
 }

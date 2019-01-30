@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.UserService
 import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class UserServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): UserService {
+class UserServiceClient(private val httpClient: BackendHttpClient): UserService {
 
     override fun existsAny() = httpClient.get("/user/exists-any", Boolean::class.java)
 

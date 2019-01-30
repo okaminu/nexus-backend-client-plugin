@@ -3,7 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class WorklogAuthServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): WorklogAuthService {
+class WorklogAuthServiceClient(private val httpClient: BackendHttpClient): WorklogAuthService {
 
     override fun doesUserHaveWorkLogInterval(userId: String, intervalId: String)
         = httpClient.get("/worklog/interval/$intervalId/user/$userId/has-interval", Boolean::class.java)

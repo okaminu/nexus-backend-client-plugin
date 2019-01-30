@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class ProjectServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): ProjectService {
+class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectService {
 
     override fun createWithDefaults(userId: String)
         = httpClient.get("/project/user/$userId/create-with-defaults", Project::class.java)

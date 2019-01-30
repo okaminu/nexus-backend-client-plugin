@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.CustomerService
 import lt.boldadmin.nexus.api.type.entity.Customer
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class CustomerServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()): CustomerService {
+class CustomerServiceClient(private val httpClient: BackendHttpClient): CustomerService {
 
     override fun save(customer: Customer)
         = httpClient.postJson("/customer/save", customer)

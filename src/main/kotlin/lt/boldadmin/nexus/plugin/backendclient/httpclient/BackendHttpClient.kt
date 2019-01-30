@@ -2,14 +2,17 @@ package lt.boldadmin.nexus.plugin.backendclient.httpclient
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
+import java.net.http.HttpRequest.BodyPublishers
+import java.net.http.HttpRequest.newBuilder
 import java.net.http.HttpResponse
 
 class BackendHttpClient(
-    private val httpClient: HttpClient = HttpClient.newBuilder().build(),
-    private val objectMapper: ObjectMapper = ObjectMapper(),
-    private val backendUriFactory: BackendUriFactory = BackendUriFactory()
+    private val httpClient: HttpClient,
+    private val objectMapper: ObjectMapper,
+    private val backendAddressProvider: BackendAddressProvider
 ) {
     fun <T> get(path: String, clazz: Class<T>) = objectMapper.readValue(get(path).body(), clazz)!!
 
@@ -24,7 +27,7 @@ class BackendHttpClient(
         post(
             createRequestBuilder(path)
                 .headers("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(value)))
+                .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(value)))
                 .build()
         )
     }
@@ -32,7 +35,7 @@ class BackendHttpClient(
     fun post(path: String, value: String) {
         post(
             createRequestBuilder(path)
-                .POST(HttpRequest.BodyPublishers.ofString(value))
+                .POST(BodyPublishers.ofString(value))
                 .build()
         )
     }
@@ -40,7 +43,7 @@ class BackendHttpClient(
     fun postWithoutBody(path: String) {
         post(
             createRequestBuilder(path)
-                .POST(HttpRequest.BodyPublishers.noBody())
+                .POST(BodyPublishers.noBody())
                 .build()
         )
     }
@@ -52,7 +55,17 @@ class BackendHttpClient(
                 .build()
         )
 
-    private fun createRequestBuilder(path: String) = HttpRequest.newBuilder().uri(backendUriFactory.create(path))
+    private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
+
+    private fun createUri(path: String) = URI(
+        backendAddressProvider.getProtocol(),
+        null,
+        backendAddressProvider.getBaseUrl(),
+        backendAddressProvider.getPort(),
+        path,
+        null,
+        null
+    )
 
     private fun get(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
 

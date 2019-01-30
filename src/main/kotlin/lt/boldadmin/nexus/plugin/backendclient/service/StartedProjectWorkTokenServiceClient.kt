@@ -5,7 +5,7 @@ import lt.boldadmin.nexus.api.service.StartedProjectWorkTokenService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class StartedProjectWorkTokenServiceClient(private val httpClient: BackendHttpClient = BackendHttpClient()):
+class StartedProjectWorkTokenServiceClient(private val httpClient: BackendHttpClient):
     StartedProjectWorkTokenService {
 
     override fun generateAndStore(projectId: String)
