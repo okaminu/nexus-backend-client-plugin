@@ -55,10 +55,10 @@ class BackendHttpClient(
     private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
 
     private fun createUri(path: String) = URI(
-        backendAddressProvider.getProtocol(),
+        backendAddressProvider.protocol,
         null,
-        backendAddressProvider.getBaseUrl(),
-        backendAddressProvider.getPort(),
+        backendAddressProvider.baseUrl,
+        backendAddressProvider.port,
         path,
         null,
         null
