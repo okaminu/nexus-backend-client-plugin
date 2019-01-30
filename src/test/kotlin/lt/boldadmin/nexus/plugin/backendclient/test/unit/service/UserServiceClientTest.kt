@@ -55,7 +55,7 @@ class UserServiceClientTest {
     }
 
     @Test
-    fun `Gets by id`() {
+    fun `Gets user by id`() {
         val expectedUser = User()
         val userId = "userId"
         doReturn(expectedUser).`when`(httpClientSpy).get("/user/$userId", User::class.java)
@@ -76,12 +76,23 @@ class UserServiceClientTest {
     }
 
     @Test
-    fun `Gets by project id`() {
+    fun `Gets user by project id`() {
         val expectedUser = User()
         val projectId = "projectId"
         doReturn(expectedUser).`when`(httpClientSpy).get("/user/project/$projectId", User::class.java)
 
         val actualUser = userServiceClient.getByProjectId(projectId)
+
+        assertSame(expectedUser, actualUser)
+    }
+
+    @Test
+    fun `Gets user by email`() {
+        val expectedUser = User()
+        val email = "email"
+        doReturn(expectedUser).`when`(httpClientSpy).get("/user/email/$email", User::class.java)
+
+        val actualUser = userServiceClient.getByEmail(email)
 
         assertSame(expectedUser, actualUser)
     }
