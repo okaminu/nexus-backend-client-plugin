@@ -48,27 +48,27 @@ class CustomerServiceClientTest {
 
 
     @Test
-    fun `Creates project with defaults`() {
+    fun `Creates customer with defaults`() {
         val expectedCustomer = Customer()
         val userId = "userId"
         doReturn(expectedCustomer)
             .`when`(httpClientSpy)
             .get("/customer/user/$userId/create-with-defaults", Customer::class.java)
 
-        val actualProject = customerServiceClientSpy.createWithDefaults(userId)
+        val actualCustomer = customerServiceClientSpy.createWithDefaults(userId)
 
-        assertSame(expectedCustomer, actualProject)
+        assertSame(expectedCustomer, actualCustomer)
     }
 
     @Test
-    fun `Gets project by id`() {
+    fun `Gets customer by id`() {
         val expectedCustomer = Customer()
         val customerId = "customerId"
         doReturn(expectedCustomer).`when`(httpClientSpy).get("/customer/$customerId", Customer::class.java)
 
-        val actualProject = customerServiceClientSpy.getById(customerId)
+        val actualCustomer = customerServiceClientSpy.getById(customerId)
 
-        assertSame(expectedCustomer, actualProject)
+        assertSame(expectedCustomer, actualCustomer)
     }
 
     @Test
