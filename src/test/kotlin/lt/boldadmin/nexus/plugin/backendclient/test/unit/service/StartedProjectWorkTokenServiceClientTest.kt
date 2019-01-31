@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertEquals
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
@@ -79,7 +80,7 @@ class StartedProjectWorkTokenServiceClientTest {
 
         val actualProject = serviceClientSpy.findProjectByToken(token)
 
-        assertEquals(expectedProject, actualProject)
+        assertSame(expectedProject, actualProject)
     }
 
     @Test
@@ -93,7 +94,7 @@ class StartedProjectWorkTokenServiceClientTest {
 
         val actualIds = serviceClientSpy.findWorkingCollaboratorIdsByToken(token)
 
-        assertEquals(expectedIds, actualIds)
+        assertSame(expectedIds, actualIds)
     }
 
     @Test
