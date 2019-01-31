@@ -16,7 +16,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpRequest.newBuilder
 import java.net.http.HttpResponse
-import kotlin.test.assertEquals
+import kotlin.test.assertSame
 
 @RunWith(MockitoJUnitRunner::class)
 class BackendHttpClientTest {
@@ -48,18 +48,16 @@ class BackendHttpClientTest {
     fun `Gets response as string`() {
         val expectedResponse = "expectedResponse"
         val httpResponseStub: HttpResponse<String> = mock()
-        val path = "/anyPath"
 
         doReturn(expectedResponse).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(path))
-            .GET()
-            .build()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        val actualResponse = backendHttpClient.get(path)
 
-        assertEquals(expectedResponse, actualResponse)
+        val actualResponse = backendHttpClient.get(PATH)
 
+
+        assertSame(expectedResponse, actualResponse)
     }
 
     @Test
@@ -67,18 +65,17 @@ class BackendHttpClientTest {
         val projectAsJson = "projectAsJson"
         val httpResponseStub: HttpResponse<String> = mock()
         val expectedProject = Project()
-        val path = "/anyPath"
+
         doReturn(expectedProject).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(path))
-            .GET()
-            .build()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        val actualProject = backendHttpClient.get(path, Project::class.java)
 
-        assertEquals(expectedProject, actualProject)
+        val actualProject = backendHttpClient.get(PATH, Project::class.java)
 
+
+        assertSame(expectedProject, actualProject)
     }
 
     @Test
@@ -86,27 +83,26 @@ class BackendHttpClientTest {
         val projectAsJson = "projectAsJson"
         val httpResponseStub: HttpResponse<String> = mock()
         val expectedProject = Project()
-        val path = "/anyPath"
-        doReturn(expectedProject).`when`(objectMapperStub).readValue<Project>(eq(projectAsJson),
-            any<TypeReference<Project>>())
+
+        doReturn(expectedProject)
+            .`when`(objectMapperStub)
+            .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(path))
-            .GET()
-            .build()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        val actualProject = backendHttpClient.get(path, object: TypeReference<Project>(){})
 
-        assertEquals(expectedProject, actualProject)
+        val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>(){})
+
+
+        assertSame(expectedProject, actualProject)
     }
 
     @Test
     fun `Posts without body`() {
-        val path = "/anyPath"
+        backendHttpClient.postWithoutBody(PATH)
 
-        backendHttpClient.postWithoutBody(path)
-
-        val request = newBuilder().uri(createUri(path))
+        val request = newBuilder().uri(createUri(PATH))
             .POST(BodyPublishers.noBody())
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
@@ -114,29 +110,23 @@ class BackendHttpClientTest {
 
     @Test
     fun `Posts value as string`() {
-        val path = "/anyPath"
-        val value = "value"
+        backendHttpClient.post(PATH, "value")
 
-        backendHttpClient.post(path, value)
-
-
-        val request = newBuilder().uri(createUri(path))
-            .POST(BodyPublishers.ofString(value))
+        val request = newBuilder().uri(createUri(PATH))
+            .POST(BodyPublishers.ofString("value"))
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
     }
 
     @Test
     fun `Posts value as class instance`() {
-        val path = "/anyPath"
         val project = Project()
         val projectAsJson = "projectAsJson"
-
         doReturn(projectAsJson).`when`(objectMapperStub).writeValueAsString(project)
-        backendHttpClient.post(path, project)
 
+        backendHttpClient.post(PATH, project)
 
-        val request = newBuilder().uri(createUri(path))
+        val request = newBuilder().uri(createUri(PATH))
             .POST(BodyPublishers.ofString(projectAsJson))
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
@@ -144,15 +134,13 @@ class BackendHttpClientTest {
 
     @Test
     fun `Posts value as class instance with json header`() {
-        val path = "/anyPath"
         val project = Project()
         val projectAsJson = "projectAsJson"
-
         doReturn(projectAsJson).`when`(objectMapperStub).writeValueAsString(project)
-        backendHttpClient.postJson(path, project)
 
+        backendHttpClient.postJson(PATH, project)
 
-        val request = newBuilder().uri(createUri(path))
+        val request = newBuilder().uri(createUri(PATH))
             .headers("Content-Type", "application/json")
             .POST(BodyPublishers.ofString(projectAsJson))
             .build()
@@ -173,5 +161,6 @@ class BackendHttpClientTest {
         private val BACKEND_PROTOCOL = "http"
         private val BACKEND_BASE_URL = "hellokitty.com"
         private val BACKEND_PORT = 1234
+        private val PATH = "/anyPath"
     }
 }
