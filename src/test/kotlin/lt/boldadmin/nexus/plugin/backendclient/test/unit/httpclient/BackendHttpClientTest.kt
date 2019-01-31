@@ -2,7 +2,10 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.httpclient
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
@@ -38,6 +41,9 @@ class BackendHttpClientTest {
     @Mock
     private lateinit var backendAddressProviderStub: BackendAddressProvider
 
+    @Mock
+    private lateinit var httpResponseStub: HttpResponse<String>
+
     private lateinit var backendHttpClient: BackendHttpClient
 
     @Before
@@ -55,7 +61,6 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as string`() {
         val expectedResponse = "expectedResponse"
-        val httpResponseStub: HttpResponse<String> = mock()
 
         doReturn(expectedResponse).`when`(httpResponseStub).body()
         val request = newBuilder().uri(createUri(PATH)).GET().build()
@@ -70,7 +75,6 @@ class BackendHttpClientTest {
 
     @Test
     fun `Gets no body exception`() {
-        val httpResponseStub: HttpResponse<String> = mock()
         doReturn(null).`when`(httpResponseStub).body()
         val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
@@ -83,7 +87,6 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as instance of class`() {
         val projectAsJson = "projectAsJson"
-        val httpResponseStub: HttpResponse<String> = mock()
         val expectedProject = Project()
 
         doReturn(expectedProject).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
@@ -101,7 +104,6 @@ class BackendHttpClientTest {
     @Test
     fun `Gets cannot convert json exception`() {
         val projectAsJson = "projectAsJson"
-        val httpResponseStub: HttpResponse<String> = mock()
         doReturn(null).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
         doReturn(projectAsJson).`when`(httpResponseStub).body()
         val request = newBuilder().uri(createUri(PATH)).GET().build()
@@ -115,7 +117,6 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as instance of class from type reference`() {
         val projectAsJson = "projectAsJson"
-        val httpResponseStub: HttpResponse<String> = mock()
         val expectedProject = Project()
 
         doReturn(expectedProject)
