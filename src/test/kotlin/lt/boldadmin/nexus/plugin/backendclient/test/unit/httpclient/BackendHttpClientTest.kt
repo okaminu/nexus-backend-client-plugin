@@ -6,8 +6,12 @@ import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
+import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.CannotConvertJsonException
+import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.NoBodyException
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -20,6 +24,10 @@ import kotlin.test.assertSame
 
 @RunWith(MockitoJUnitRunner::class)
 class BackendHttpClientTest {
+
+    @Rule
+    @JvmField
+    val expectedException = ExpectedException.none()!!
 
     @Mock
     private lateinit var httpClientSpy: HttpClient
@@ -61,6 +69,18 @@ class BackendHttpClientTest {
     }
 
     @Test
+    fun `Gets no body exception`() {
+        val httpResponseStub: HttpResponse<String> = mock()
+        doReturn(null).`when`(httpResponseStub).body()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
+
+        expectedException.expect(NoBodyException::class.java)
+
+        backendHttpClient.get(PATH)
+    }
+
+    @Test
     fun `Gets response as instance of class`() {
         val projectAsJson = "projectAsJson"
         val httpResponseStub: HttpResponse<String> = mock()
@@ -76,6 +96,20 @@ class BackendHttpClientTest {
 
 
         assertSame(expectedProject, actualProject)
+    }
+
+    @Test
+    fun `Gets cannot convert json exception`() {
+        val projectAsJson = "projectAsJson"
+        val httpResponseStub: HttpResponse<String> = mock()
+        doReturn(null).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
+        doReturn(projectAsJson).`when`(httpResponseStub).body()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
+
+        expectedException.expect(CannotConvertJsonException::class.java)
+
+        backendHttpClient.get(PATH, Project::class.java)
     }
 
     @Test

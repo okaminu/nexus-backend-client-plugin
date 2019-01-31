@@ -2,6 +2,8 @@ package lt.boldadmin.nexus.plugin.backendclient.httpclient
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.CannotConvertJsonException
+import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.NoBodyException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -14,7 +16,8 @@ class BackendHttpClient(
     private val objectMapper: ObjectMapper,
     private val backendAddressProvider: BackendAddressProvider
 ) {
-    fun <T> get(path: String, clazz: Class<T>) = objectMapper.readValue(get(path), clazz)!!
+    fun <T> get(path: String, clazz: Class<T>) =
+        objectMapper.readValue(get(path), clazz) ?: throw CannotConvertJsonException
 
     fun <T> get(path: String, typeReference: TypeReference<T>): T = objectMapper.readValue(get(path), typeReference)
 
@@ -23,7 +26,7 @@ class BackendHttpClient(
             createRequestBuilder(path)
                 .GET()
                 .build()
-        ).body()!!
+        ).body() ?: throw NoBodyException
 
     fun <T> post(path: String, value: T) = post(path, objectMapper.writeValueAsString(value))
 
