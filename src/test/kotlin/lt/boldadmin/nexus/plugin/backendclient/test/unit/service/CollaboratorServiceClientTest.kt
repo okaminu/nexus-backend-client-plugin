@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class CollaboratorServiceClientTest {
@@ -23,6 +24,15 @@ class CollaboratorServiceClientTest {
     @Before
     fun setUp() {
         serviceClientSpy = CollaboratorServiceClient(httpClientSpy)
+    }
+
+    @Test
+    fun `Saves collaborator`() {
+        val collaborator = Collaborator()
+
+        serviceClientSpy.save(collaborator)
+
+        verify(httpClientSpy).post("/collaborator/save", collaborator)
     }
 
     @Test
@@ -65,5 +75,42 @@ class CollaboratorServiceClientTest {
         val actualCollaborator = serviceClientSpy.getById(collaboratorId)
 
         assertSame(expectedCollaborator, actualCollaborator)
+    }
+
+    @Test
+    fun `Gets collaborator by mobile number`() {
+        val expectedCollaborator = Collaborator()
+        val mobileNumber = "mobileNumber"
+        doReturn(expectedCollaborator)
+            .`when`(httpClientSpy)
+            .get("/collaborator/mobile-number/$mobileNumber", Collaborator::class.java)
+
+        val actualCollaborator = serviceClientSpy.getByMobileNumber(mobileNumber)
+
+        assertSame(expectedCollaborator, actualCollaborator)
+    }
+
+    @Test
+    fun `Exists collaborator by mobile number`() {
+        val mobileNumber = "mobileNumber"
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get("/collaborator/mobile-number/$mobileNumber/exists", Boolean::class.java)
+
+        val exists = serviceClientSpy.existsByMobileNumber(mobileNumber)
+
+        assertTrue(exists)
+    }
+
+    @Test
+    fun `Exists collaborator by id`() {
+        val collaboratorId = "collaboratorId"
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get("/collaborator/$collaboratorId/exists", Boolean::class.java)
+
+        val exists = serviceClientSpy.existsById(collaboratorId)
+
+        assertTrue(exists)
     }
 }
