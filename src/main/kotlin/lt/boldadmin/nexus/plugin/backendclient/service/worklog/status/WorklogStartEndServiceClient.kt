@@ -12,7 +12,7 @@ class WorklogStartEndServiceClient(private val httpClient: BackendHttpClient): W
         = httpClient.get("/worklog/collaborator/$collaboratorId/status/project-of-started-work", Project::class.java)
 
     override fun start(collaborator: Collaborator, project: Project)
-        = httpClient.postJson("/worklog/status/start", project)
+        = httpClient.postJson("/worklog/status/start", Pair(collaborator, project))
 
     override fun start(collaborator: Collaborator, project: Project, timestamp: Long)
         = httpClient.postJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
