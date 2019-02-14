@@ -7,17 +7,17 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogService {
 
-    override fun save(worklog: Worklog) = httpClient.postJson("/worklog/save", worklog)
+    override fun save(worklog: Worklog) = httpClient.postAsJson("/worklog/save", worklog)
 
-    override fun getByCollaboratorId(id: String)
-        = httpClient.get("/worklog/collaborator/$id", object: TypeReference<Collection<Worklog>>(){})
+    override fun getByCollaboratorId(id: String) =
+        httpClient.get("/worklog/collaborator/$id", object: TypeReference<Collection<Worklog>>(){})
 
-    override fun getByProjectId(id: String)
-        = httpClient.get("/worklog/project/$id", object: TypeReference<Collection<Worklog>>(){})
+    override fun getByProjectId(id: String) =
+        httpClient.get("/worklog/project/$id", object: TypeReference<Collection<Worklog>>(){})
 
-    override fun getIntervalEndpoints(intervalId: String)
-        = httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>(){})
+    override fun getIntervalEndpoints(intervalId: String) =
+        httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>(){})
 
-    override fun existsByProjectIdAndCollaboratorId(projectId: String, collaboratorId: String)
-        = httpClient.get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
+    override fun existsByProjectIdAndCollaboratorId(projectId: String, collaboratorId: String) =
+        httpClient.get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
 }

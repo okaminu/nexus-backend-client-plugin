@@ -7,6 +7,6 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class WorklogLocationServiceClient(private val httpClient: BackendHttpClient): WorklogLocationService {
 
-    override fun logWork(collaborator: Collaborator, collaboratorLocation: Location)
-        = httpClient.postJson("/worklog/status/log-work/location", Pair(collaborator, collaboratorLocation))
+    override fun logWork(collaborator: Collaborator, collaboratorLocation: Location) =
+        httpClient.postAsJson("/worklog/status/log-work/location", Pair(collaborator, collaboratorLocation))
 }

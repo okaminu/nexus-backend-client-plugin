@@ -18,6 +18,6 @@ class WorklogLocationServiceClientTest {
 
         WorklogLocationServiceClient(httpClientSpy).logWork(collaborator, location)
 
-        verify(httpClientSpy).postJson("/worklog/status/log-work/location", Pair(collaborator, location))
+        verify(httpClientSpy).postAsJson("/worklog/status/log-work/location", Pair(collaborator, location))
     }
 }

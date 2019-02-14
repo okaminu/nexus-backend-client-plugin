@@ -11,5 +11,5 @@ object BackendAddressProvider {
         get() {
             val value = System.getenv("NEXUS_BACKEND_PORT") ?: throw BackendAddressNotSetException
             return value.toInt()
-    }
+        }
 }

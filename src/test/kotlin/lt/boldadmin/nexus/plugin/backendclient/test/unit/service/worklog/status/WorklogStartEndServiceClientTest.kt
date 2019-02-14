@@ -46,7 +46,7 @@ class WorklogStartEndServiceClientTest {
         val collaborator = Collaborator()
 
         serviceClientSpy.start(collaborator, project)
-        verify(httpClientSpy).postJson("/worklog/status/start", Pair(collaborator, project))
+        verify(httpClientSpy).postAsJson("/worklog/status/start", Pair(collaborator, project))
     }
 
     @Test
@@ -57,7 +57,7 @@ class WorklogStartEndServiceClientTest {
 
         serviceClientSpy.start(collaborator, project, timestamp)
         verify(httpClientSpy)
-            .postJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
+            .postAsJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
     }
 
     @Test
@@ -66,7 +66,7 @@ class WorklogStartEndServiceClientTest {
 
         serviceClientSpy.end(collaborator)
 
-        verify(httpClientSpy).postJson("/worklog/status/end", collaborator)
+        verify(httpClientSpy).postAsJson("/worklog/status/end", collaborator)
     }
 
     @Test
@@ -77,7 +77,7 @@ class WorklogStartEndServiceClientTest {
         serviceClientSpy.end(collaborator, timestamp)
 
         verify(httpClientSpy)
-            .postJson("/worklog/status/end/timestamp/$timestamp", collaborator)
+            .postAsJson("/worklog/status/end/timestamp/$timestamp", collaborator)
     }
 
     @Test
@@ -85,7 +85,7 @@ class WorklogStartEndServiceClientTest {
         serviceClientSpy.endAllStartedWorkWhereWorkTimeEnded()
 
         verify(httpClientSpy)
-            .postWithoutBody("/worklog/status/end/all-started-work-where-worktime-ended")
+            .postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
     }
 
     @Test

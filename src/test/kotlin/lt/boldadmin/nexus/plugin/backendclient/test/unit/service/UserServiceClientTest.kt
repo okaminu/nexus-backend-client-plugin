@@ -32,7 +32,7 @@ class UserServiceClientTest {
 
         userServiceClient.save(user)
 
-        verify(httpClientSpy).postJson("/user/save", user)
+        verify(httpClientSpy).postAsJson("/user/save", user)
     }
 
     @Test

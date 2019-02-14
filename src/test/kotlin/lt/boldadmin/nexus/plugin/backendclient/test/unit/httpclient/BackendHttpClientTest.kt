@@ -61,14 +61,11 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as string`() {
         val expectedResponse = "expectedResponse"
-
-        doReturn(expectedResponse).`when`(httpResponseStub).body()
         val request = newBuilder().uri(createUri(PATH)).GET().build()
+        doReturn(expectedResponse).`when`(httpResponseStub).body()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-
         val actualResponse = backendHttpClient.get(PATH)
-
 
         assertSame(expectedResponse, actualResponse)
     }
@@ -115,6 +112,23 @@ class BackendHttpClientTest {
     }
 
     @Test
+    fun `Gets cannot convert json exception on Type reference`() {
+        val projectAsJson = "projectAsJson"
+
+        doReturn(null)
+            .`when`(objectMapperStub)
+            .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
+        doReturn(projectAsJson).`when`(httpResponseStub).body()
+        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
+
+        expectedException.expect(CannotConvertJsonException::class.java)
+
+        backendHttpClient.get(PATH, object : TypeReference<Project>() {})
+    }
+
+
+    @Test
     fun `Gets response as instance of class from type reference`() {
         val projectAsJson = "projectAsJson"
         val expectedProject = Project()
@@ -126,9 +140,7 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-
         val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>(){})
-
 
         assertSame(expectedProject, actualProject)
     }
@@ -173,7 +185,7 @@ class BackendHttpClientTest {
         val projectAsJson = "projectAsJson"
         doReturn(projectAsJson).`when`(objectMapperStub).writeValueAsString(project)
 
-        backendHttpClient.postJson(PATH, project)
+        backendHttpClient.postAsJson(PATH, project)
 
         val request = newBuilder().uri(createUri(PATH))
             .headers("Content-Type", "application/json")

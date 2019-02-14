@@ -8,29 +8,29 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class WorklogStartEndServiceClient(private val httpClient: BackendHttpClient): WorklogStartEndService {
 
-    override fun getProjectOfStartedWork(collaboratorId: String)
-        = httpClient.get("/worklog/collaborator/$collaboratorId/status/project-of-started-work", Project::class.java)
+    override fun getProjectOfStartedWork(collaboratorId: String) =
+        httpClient.get("/worklog/collaborator/$collaboratorId/status/project-of-started-work", Project::class.java)
 
-    override fun start(collaborator: Collaborator, project: Project)
-        = httpClient.postJson("/worklog/status/start", Pair(collaborator, project))
+    override fun start(collaborator: Collaborator, project: Project) =
+        httpClient.postAsJson("/worklog/status/start", Pair(collaborator, project))
 
-    override fun start(collaborator: Collaborator, project: Project, timestamp: Long)
-        = httpClient.postJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
+    override fun start(collaborator: Collaborator, project: Project, timestamp: Long) =
+        httpClient.postAsJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
 
-    override fun hasWorkStarted(collaboratorId: String)
-        = httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-started", Boolean::class.java)
+    override fun hasWorkStarted(collaboratorId: String) =
+        httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-started", Boolean::class.java)
 
-    override fun end(collaborator: Collaborator)
-        = httpClient.postJson("/worklog/status/end", collaborator)
+    override fun end(collaborator: Collaborator) =
+        httpClient.postAsJson("/worklog/status/end", collaborator)
 
-    override fun end(collaborator: Collaborator, timestamp: Long)
-        = httpClient.postJson("/worklog/status/end/timestamp/$timestamp", collaborator)
+    override fun end(collaborator: Collaborator, timestamp: Long) =
+        httpClient.postAsJson("/worklog/status/end/timestamp/$timestamp", collaborator)
 
-    override fun endAllStartedWorkWhereWorkTimeEnded()
-        = httpClient.postWithoutBody("/worklog/status/end/all-started-work-where-worktime-ended")
+    override fun endAllStartedWorkWhereWorkTimeEnded() =
+        httpClient.postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
 
-    override fun hasWorkEnded(collaboratorId: String)
-        = httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-ended", Boolean::class.java)
+    override fun hasWorkEnded(collaboratorId: String) =
+        httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-ended", Boolean::class.java)
 
 
 }

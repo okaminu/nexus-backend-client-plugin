@@ -77,6 +77,6 @@ class CustomerServiceClientTest {
 
         customerServiceClientSpy.save(customer)
 
-        verify(httpClientSpy).postJson("/customer/save", customer)
+        verify(httpClientSpy).postAsJson("/customer/save", customer)
     }
 }

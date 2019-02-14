@@ -6,17 +6,17 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class CustomerServiceClient(private val httpClient: BackendHttpClient): CustomerService {
 
-    override fun save(customer: Customer)
-        = httpClient.postJson("/customer/save", customer)
+    override fun save(customer: Customer) =
+        httpClient.postAsJson("/customer/save", customer)
 
-    override fun createWithDefaults(userId: String)
-        = httpClient.get("/customer/user/$userId/create-with-defaults", Customer::class.java)
+    override fun createWithDefaults(userId: String) =
+        httpClient.get("/customer/user/$userId/create-with-defaults", Customer::class.java)
 
     override fun getById(id: String) = httpClient.get("/customer/$id", Customer::class.java)
 
-    override fun update(id: String, attributeName: String, attributeValue: String)
-        = httpClient.post("/customer/$id/attribute/$attributeName/update", attributeValue)
+    override fun update(id: String, attributeName: String, attributeValue: String) =
+        httpClient.post("/customer/$id/attribute/$attributeName/update", attributeValue)
 
-    override fun updateOrderNumber(customerId: String, orderNumber: Short)
-        = httpClient.post("/customer/$customerId/attribute/order-number/update", orderNumber)
+    override fun updateOrderNumber(customerId: String, orderNumber: Short) =
+        httpClient.post("/customer/$customerId/attribute/order-number/update", orderNumber)
 }

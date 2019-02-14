@@ -16,6 +16,6 @@ class WorklogMessageServiceClientTest {
 
         WorklogMessageServiceClient(httpClientSpy).logWork(message)
 
-        verify(httpClientSpy).postJson("/worklog/status/log-work/message", message)
+        verify(httpClientSpy).postAsJson("/worklog/status/log-work/message", message)
     }
 }

@@ -5,12 +5,12 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class WorklogDescriptionServiceClient(private val httpClient: BackendHttpClient): WorklogDescriptionService {
 
-    override fun getDescription(intervalId: String)
-        = httpClient.get("/worklog/interval/$intervalId/status/description")
+    override fun getDescription(intervalId: String) =
+        httpClient.get("/worklog/interval/$intervalId/status/description")
 
-    override fun updateDescription(intervalId: String, description: String)
-        = httpClient.post("/worklog/interval/$intervalId/status/description/update", description)
+    override fun updateDescription(intervalId: String, description: String) =
+        httpClient.post("/worklog/interval/$intervalId/status/description/update", description)
 
-    override fun updateDescriptionByCollaboratorId(collaboratorId: String, description: String)
-        = httpClient.post("/worklog/collaborator/$collaboratorId/status/description/update", description)
+    override fun updateDescriptionByCollaboratorId(collaboratorId: String, description: String) =
+        httpClient.post("/worklog/collaborator/$collaboratorId/status/description/update", description)
 }

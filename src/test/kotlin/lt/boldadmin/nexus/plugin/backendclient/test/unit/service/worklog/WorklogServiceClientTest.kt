@@ -85,6 +85,6 @@ class WorklogServiceClientTest {
 
         worklogServiceClientSpy.save(worklog)
 
-        verify(httpClientSpy).postJson("/worklog/save", worklog)
+        verify(httpClientSpy).postAsJson("/worklog/save", worklog)
     }
 }

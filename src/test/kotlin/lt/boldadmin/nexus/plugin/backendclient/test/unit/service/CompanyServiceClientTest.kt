@@ -18,7 +18,7 @@ class CompanyServiceClientTest {
 
         CompanyServiceClient(httpClientSpy).save(company)
 
-        verify(httpClientSpy).postJson("/company/save", company)
+        verify(httpClientSpy).postAsJson("/company/save", company)
     }
 
     @Test
