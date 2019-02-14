@@ -6,8 +6,7 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class CustomerServiceClient(private val httpClient: BackendHttpClient): CustomerService {
 
-    override fun save(customer: Customer) =
-        httpClient.postAsJson("/customer/save", customer)
+    override fun save(customer: Customer) = httpClient.postAsJson("/customer/save", customer)
 
     override fun createWithDefaults(userId: String) =
         httpClient.get("/customer/user/$userId/create-with-defaults", Customer::class.java)

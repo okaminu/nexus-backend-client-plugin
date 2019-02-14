@@ -91,9 +91,7 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri(PATH)).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-
         val actualProject = backendHttpClient.get(PATH, Project::class.java)
-
 
         assertSame(expectedProject, actualProject)
     }
@@ -114,7 +112,6 @@ class BackendHttpClientTest {
     @Test
     fun `Gets cannot convert json exception on Type reference`() {
         val projectAsJson = "projectAsJson"
-
         doReturn(null)
             .`when`(objectMapperStub)
             .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
@@ -132,7 +129,6 @@ class BackendHttpClientTest {
     fun `Gets response as instance of class from type reference`() {
         val projectAsJson = "projectAsJson"
         val expectedProject = Project()
-
         doReturn(expectedProject)
             .`when`(objectMapperStub)
             .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())

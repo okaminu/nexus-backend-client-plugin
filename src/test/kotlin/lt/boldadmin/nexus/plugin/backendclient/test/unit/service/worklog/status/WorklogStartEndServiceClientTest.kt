@@ -46,6 +46,7 @@ class WorklogStartEndServiceClientTest {
         val collaborator = Collaborator()
 
         serviceClientSpy.start(collaborator, project)
+
         verify(httpClientSpy).postAsJson("/worklog/status/start", Pair(collaborator, project))
     }
 
@@ -56,6 +57,7 @@ class WorklogStartEndServiceClientTest {
         val timestamp: Long = 1234
 
         serviceClientSpy.start(collaborator, project, timestamp)
+
         verify(httpClientSpy)
             .postAsJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
     }

@@ -31,6 +31,4 @@ class WorklogStartEndServiceClient(private val httpClient: BackendHttpClient): W
 
     override fun hasWorkEnded(collaboratorId: String) =
         httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-ended", Boolean::class.java)
-
-
 }
