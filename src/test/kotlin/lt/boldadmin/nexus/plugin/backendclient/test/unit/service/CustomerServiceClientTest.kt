@@ -18,11 +18,11 @@ class CustomerServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var customerServiceClientSpy: CustomerServiceClient
+    private lateinit var customerServiceClient: CustomerServiceClient
 
     @Before
     fun setUp() {
-        customerServiceClientSpy = CustomerServiceClient(httpClientSpy)
+        customerServiceClient = CustomerServiceClient(httpClientSpy)
     }
 
     @Test
@@ -31,7 +31,7 @@ class CustomerServiceClientTest {
         val attributeValue = "attributeValue"
         val customerId = "customerId"
 
-        customerServiceClientSpy.update(customerId, attributeName, attributeValue)
+        customerServiceClient.update(customerId, attributeName, attributeValue)
 
         verify(httpClientSpy).post("/customer/$customerId/attribute/$attributeName/update", attributeValue)
     }
@@ -41,11 +41,10 @@ class CustomerServiceClientTest {
         val orderNumber: Short = 5
         val customerId = "customerId"
 
-        customerServiceClientSpy.updateOrderNumber(customerId, orderNumber)
+        customerServiceClient.updateOrderNumber(customerId, orderNumber)
 
         verify(httpClientSpy).post("/customer/$customerId/attribute/order-number/update", orderNumber)
     }
-
 
     @Test
     fun `Creates customer with defaults`() {
@@ -55,7 +54,7 @@ class CustomerServiceClientTest {
             .`when`(httpClientSpy)
             .get("/customer/user/$userId/create-with-defaults", Customer::class.java)
 
-        val actualCustomer = customerServiceClientSpy.createWithDefaults(userId)
+        val actualCustomer = customerServiceClient.createWithDefaults(userId)
 
         assertSame(expectedCustomer, actualCustomer)
     }
@@ -66,7 +65,7 @@ class CustomerServiceClientTest {
         val customerId = "customerId"
         doReturn(expectedCustomer).`when`(httpClientSpy).get("/customer/$customerId", Customer::class.java)
 
-        val actualCustomer = customerServiceClientSpy.getById(customerId)
+        val actualCustomer = customerServiceClient.getById(customerId)
 
         assertSame(expectedCustomer, actualCustomer)
     }
@@ -75,7 +74,7 @@ class CustomerServiceClientTest {
     fun `Saves customer`() {
         val customer = Customer()
 
-        customerServiceClientSpy.save(customer)
+        customerServiceClient.save(customer)
 
         verify(httpClientSpy).postAsJson("/customer/save", customer)
     }

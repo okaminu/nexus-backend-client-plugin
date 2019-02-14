@@ -19,18 +19,18 @@ class CollaboratorServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var serviceClientSpy: CollaboratorServiceClient
+    private lateinit var serviceClient: CollaboratorServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = CollaboratorServiceClient(httpClientSpy)
+        serviceClient = CollaboratorServiceClient(httpClientSpy)
     }
 
     @Test
     fun `Saves collaborator`() {
         val collaborator = Collaborator()
 
-        serviceClientSpy.save(collaborator)
+        serviceClient.save(collaborator)
 
         verify(httpClientSpy).post("/collaborator/save", collaborator)
     }
@@ -41,7 +41,7 @@ class CollaboratorServiceClientTest {
         val attributeValue = "attributeValue"
         val collaboratorId = "collaboratorId"
 
-        serviceClientSpy.update(collaboratorId, attributeName, attributeValue)
+        serviceClient.update(collaboratorId, attributeName, attributeValue)
 
         verify(httpClientSpy).post("/collaborator/$collaboratorId/attribute/$attributeName/update", attributeValue)
     }
@@ -51,7 +51,7 @@ class CollaboratorServiceClientTest {
         val orderNumber: Short = 5
         val collaboratorId = "collaboratorId"
 
-        serviceClientSpy.updateOrderNumber(collaboratorId, orderNumber)
+        serviceClient.updateOrderNumber(collaboratorId, orderNumber)
 
         verify(httpClientSpy).post("/collaborator/$collaboratorId/attribute/order-number/update", orderNumber)
     }
@@ -59,9 +59,11 @@ class CollaboratorServiceClientTest {
     @Test
     fun `Creates collaborator with defaults`() {
         val expectedCollaborator = Collaborator()
-        doReturn(expectedCollaborator).`when`(httpClientSpy).get("/collaborator/create-with-defaults", Collaborator::class.java)
+        doReturn(expectedCollaborator)
+            .`when`(httpClientSpy)
+            .get("/collaborator/create-with-defaults", Collaborator::class.java)
 
-        val actualCollaborator = serviceClientSpy.createWithDefaults()
+        val actualCollaborator = serviceClient.createWithDefaults()
 
         assertSame(expectedCollaborator, actualCollaborator)
     }
@@ -72,7 +74,7 @@ class CollaboratorServiceClientTest {
         val collaboratorId = "collaboratorId"
         doReturn(expectedCollaborator).`when`(httpClientSpy).get("/collaborator/$collaboratorId", Collaborator::class.java)
 
-        val actualCollaborator = serviceClientSpy.getById(collaboratorId)
+        val actualCollaborator = serviceClient.getById(collaboratorId)
 
         assertSame(expectedCollaborator, actualCollaborator)
     }
@@ -85,7 +87,7 @@ class CollaboratorServiceClientTest {
             .`when`(httpClientSpy)
             .get("/collaborator/mobile-number/$mobileNumber", Collaborator::class.java)
 
-        val actualCollaborator = serviceClientSpy.getByMobileNumber(mobileNumber)
+        val actualCollaborator = serviceClient.getByMobileNumber(mobileNumber)
 
         assertSame(expectedCollaborator, actualCollaborator)
     }
@@ -97,7 +99,7 @@ class CollaboratorServiceClientTest {
             .`when`(httpClientSpy)
             .get("/collaborator/mobile-number/$mobileNumber/exists", Boolean::class.java)
 
-        val exists = serviceClientSpy.existsByMobileNumber(mobileNumber)
+        val exists = serviceClient.existsByMobileNumber(mobileNumber)
 
         assertTrue(exists)
     }
@@ -109,7 +111,7 @@ class CollaboratorServiceClientTest {
             .`when`(httpClientSpy)
             .get("/collaborator/$collaboratorId/exists", Boolean::class.java)
 
-        val exists = serviceClientSpy.existsById(collaboratorId)
+        val exists = serviceClient.existsById(collaboratorId)
 
         assertTrue(exists)
     }

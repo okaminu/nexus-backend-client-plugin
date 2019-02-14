@@ -15,22 +15,24 @@ import kotlin.test.assertTrue
 class WorklogAuthServiceClientTest {
 
     @Mock
-    private lateinit var httpClientSpy: BackendHttpClient
+    private lateinit var httpClientStub: BackendHttpClient
 
-    private lateinit var serviceClientSpy: WorklogAuthServiceClient
+    private lateinit var serviceClient: WorklogAuthServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = WorklogAuthServiceClient(httpClientSpy)
+        serviceClient = WorklogAuthServiceClient(httpClientStub)
     }
 
     @Test
     fun `User has worklog interval`() {
         val userId = "userId"
         val intervalId = "intervalId"
-        doReturn(true).`when`(httpClientSpy).get("/worklog/interval/$intervalId/user/$userId/has-interval", Boolean::class.java)
+        doReturn(true)
+            .`when`(httpClientStub)
+            .get("/worklog/interval/$intervalId/user/$userId/has-interval", Boolean::class.java)
 
-        val exists = serviceClientSpy.doesUserHaveWorkLogInterval(userId, intervalId)
+        val exists = serviceClient.doesUserHaveWorkLogInterval(userId, intervalId)
 
         assertTrue(exists)
     }
@@ -39,9 +41,11 @@ class WorklogAuthServiceClientTest {
     fun `Collaborator has worklog interval`() {
         val collaboratorId = "collaboratorId"
         val intervalId = "intervalId"
-        doReturn(true).`when`(httpClientSpy).get("/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval", Boolean::class.java)
+        doReturn(true)
+            .`when`(httpClientStub)
+            .get("/worklog/interval/$intervalId/collaborator/$collaboratorId/has-interval", Boolean::class.java)
 
-        val exists = serviceClientSpy.doesCollaboratorHaveWorkLogInterval(collaboratorId, intervalId)
+        val exists = serviceClient.doesCollaboratorHaveWorkLogInterval(collaboratorId, intervalId)
 
         assertTrue(exists)
     }
@@ -51,17 +55,18 @@ class WorklogAuthServiceClientTest {
         val collaboratorId = "collaboratorId"
         val intervalId1 = "intervalId1"
         val intervalId2 = "intervalId2"
-        doReturn(true).`when`(httpClientSpy).get("/worklog/intervals/$intervalId1,$intervalId2" +
+        doReturn(true).`when`(httpClientStub).get("/worklog/intervals/$intervalId1,$intervalId2" +
             "/collaborator/$collaboratorId/has-intervals", Boolean::class.java)
 
-        val exists = serviceClientSpy.doesCollaboratorHaveWorkLogIntervals(collaboratorId, listOf(intervalId1, intervalId2))
+        val exists = serviceClient.
+            doesCollaboratorHaveWorkLogIntervals(collaboratorId, listOf(intervalId1, intervalId2))
 
         assertTrue(exists)
     }
 
     @Test
     fun `Collaborator has no worklog intervals when none are given`() {
-        val exists = serviceClientSpy.doesCollaboratorHaveWorkLogIntervals("collaboratorId", emptyList())
+        val exists = serviceClient.doesCollaboratorHaveWorkLogIntervals("collaboratorId", emptyList())
 
         assertFalse(exists)
     }

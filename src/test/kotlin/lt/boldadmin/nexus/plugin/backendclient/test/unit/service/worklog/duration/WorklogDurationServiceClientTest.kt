@@ -14,22 +14,22 @@ import kotlin.test.assertEquals
 class WorklogDurationServiceClientTest {
 
     @Mock
-    private lateinit var httpClientSpy: BackendHttpClient
+    private lateinit var httpClientStub: BackendHttpClient
 
-    private lateinit var serviceClientSpy: WorklogDurationServiceClient
+    private lateinit var serviceClient: WorklogDurationServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = WorklogDurationServiceClient(httpClientSpy)
+        serviceClient = WorklogDurationServiceClient(httpClientStub)
     }
 
     @Test
     fun `Measures duration`() {
         val intervalId = "intervalId"
         val expectedDuration: Long = 404
-        doReturn(expectedDuration).`when`(httpClientSpy).get("/worklog/interval/$intervalId/duration", Long::class.java)
+        doReturn(expectedDuration).`when`(httpClientStub).get("/worklog/interval/$intervalId/duration", Long::class.java)
 
-        val actualDuration = serviceClientSpy.measureDuration(intervalId)
+        val actualDuration = serviceClient.measureDuration(intervalId)
 
         assertEquals(expectedDuration, actualDuration)
     }
@@ -40,17 +40,17 @@ class WorklogDurationServiceClientTest {
         val intervalId2 = "intervalId2"
         val expectedDurationSum: Long = 404
         doReturn(expectedDurationSum)
-            .`when`(httpClientSpy)
+            .`when`(httpClientStub)
             .get("/worklog/intervals/$intervalId1,$intervalId2/durations-sum", Long::class.java)
 
-        val actualDurationSum = serviceClientSpy.sumWorkDurations(listOf(intervalId1, intervalId2))
+        val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
 
         assertEquals(expectedDurationSum, actualDurationSum)
     }
 
     @Test
     fun `Collaborator has no worklog intervals when none are given`() {
-        val durationSum = serviceClientSpy.sumWorkDurations(emptyList())
+        val durationSum = serviceClient.sumWorkDurations(emptyList())
 
         assertEquals(0, durationSum)
     }

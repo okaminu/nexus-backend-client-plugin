@@ -22,11 +22,11 @@ class WorklogServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var worklogServiceClientSpy: WorklogServiceClient
+    private lateinit var worklogServiceClient: WorklogServiceClient
 
     @Before
     fun setUp() {
-        worklogServiceClientSpy = WorklogServiceClient(httpClientSpy)
+        worklogServiceClient = WorklogServiceClient(httpClientSpy)
     }
 
     @Test
@@ -37,7 +37,7 @@ class WorklogServiceClientTest {
             .`when`(httpClientSpy)
             .get(eq("/worklog/collaborator/$collaboratorId"), any<TypeReference<Collection<Worklog>>>())
 
-        val actualWorklogs = worklogServiceClientSpy.getByCollaboratorId(collaboratorId)
+        val actualWorklogs = worklogServiceClient.getByCollaboratorId(collaboratorId)
 
         assertSame(expectedWorklogs, actualWorklogs)
     }
@@ -50,7 +50,7 @@ class WorklogServiceClientTest {
             .`when`(httpClientSpy)
             .get(eq("/worklog/project/$projectId"), any<TypeReference<Collection<Worklog>>>())
 
-        val actualWorklogs = worklogServiceClientSpy.getByProjectId(projectId)
+        val actualWorklogs = worklogServiceClient.getByProjectId(projectId)
 
         assertSame(expectedWorklogs, actualWorklogs)
     }
@@ -63,7 +63,7 @@ class WorklogServiceClientTest {
             .`when`(httpClientSpy)
             .get(eq("/worklog/interval/$intervalId/endpoints"), any<TypeReference<Collection<Worklog>>>())
 
-        val actualWorklogs = worklogServiceClientSpy.getIntervalEndpoints(intervalId)
+        val actualWorklogs = worklogServiceClient.getIntervalEndpoints(intervalId)
 
         assertSame(expectedWorklogs, actualWorklogs)
     }
@@ -72,9 +72,11 @@ class WorklogServiceClientTest {
     fun `Exists by collaborator and project ids`() {
         val projectId = "projectId"
         val collaboratorId = "collaboratorId"
-        doReturn(true).`when`(httpClientSpy).get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
 
-        val exists = worklogServiceClientSpy.existsByProjectIdAndCollaboratorId(projectId, collaboratorId)
+        val exists = worklogServiceClient.existsByProjectIdAndCollaboratorId(projectId, collaboratorId)
 
         assertTrue(exists)
     }
@@ -83,7 +85,7 @@ class WorklogServiceClientTest {
     fun `Saves worklog`() {
         val worklog = Worklog()
 
-        worklogServiceClientSpy.save(worklog)
+        worklogServiceClient.save(worklog)
 
         verify(httpClientSpy).postAsJson("/worklog/save", worklog)
     }

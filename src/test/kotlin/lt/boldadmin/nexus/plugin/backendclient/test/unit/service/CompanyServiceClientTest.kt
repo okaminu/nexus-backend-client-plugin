@@ -23,11 +23,11 @@ class CompanyServiceClientTest {
 
     @Test
     fun `Exists by name`() {
-        val httpClientSpy: BackendHttpClient = mock()
+        val httpClientDummy: BackendHttpClient = mock()
         val companyName = "companyName"
-        doReturn(true).`when`(httpClientSpy).get("/company/name/$companyName/exists", Boolean::class.java)
+        doReturn(true).`when`(httpClientDummy).get("/company/name/$companyName/exists", Boolean::class.java)
 
-        val exists = CompanyServiceClient(httpClientSpy).existsByName(companyName)
+        val exists = CompanyServiceClient(httpClientDummy).existsByName(companyName)
 
         assertTrue(exists)
     }

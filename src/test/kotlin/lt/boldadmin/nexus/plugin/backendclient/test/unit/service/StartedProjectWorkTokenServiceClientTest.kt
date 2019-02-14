@@ -23,18 +23,18 @@ class StartedProjectWorkTokenServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var serviceClientSpy: StartedProjectWorkTokenServiceClient
+    private lateinit var serviceClient: StartedProjectWorkTokenServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = StartedProjectWorkTokenServiceClient(httpClientSpy)
+        serviceClient = StartedProjectWorkTokenServiceClient(httpClientSpy)
     }
 
     @Test
     fun `Generates and stores token for project`() {
         val projectId = "projectId"
 
-        serviceClientSpy.generateAndStore(projectId)
+        serviceClient.generateAndStore(projectId)
 
         verify(httpClientSpy).post("/started-project-work-token/generate-and-store", projectId)
     }
@@ -43,7 +43,7 @@ class StartedProjectWorkTokenServiceClientTest {
     fun `Deletes token`() {
         val projectId = "projectId"
 
-        serviceClientSpy.deleteById(projectId)
+        serviceClient.deleteById(projectId)
 
         verify(httpClientSpy).post("/started-project-work-token/delete", projectId)
     }
@@ -54,7 +54,7 @@ class StartedProjectWorkTokenServiceClientTest {
         val expectedToken = "token"
         doReturn(expectedToken).`when`(httpClientSpy).get("/started-project-work-token/project/$projectId/token")
 
-        val actualToken = serviceClientSpy.findTokenById(projectId)
+        val actualToken = serviceClient.findTokenById(projectId)
 
         assertEquals(expectedToken, actualToken)
     }
@@ -65,7 +65,7 @@ class StartedProjectWorkTokenServiceClientTest {
         val token = "token"
         doReturn(expectedProjectId).`when`(httpClientSpy).get("/started-project-work-token/token/$token/id")
 
-        val actualProjectId = serviceClientSpy.findIdByToken(token)
+        val actualProjectId = serviceClient.findIdByToken(token)
 
         assertEquals(expectedProjectId, actualProjectId)
     }
@@ -78,7 +78,7 @@ class StartedProjectWorkTokenServiceClientTest {
             .`when`(httpClientSpy)
             .get("/started-project-work-token/token/$token/project", Project::class.java)
 
-        val actualProject = serviceClientSpy.findProjectByToken(token)
+        val actualProject = serviceClient.findProjectByToken(token)
 
         assertSame(expectedProject, actualProject)
     }
@@ -92,7 +92,7 @@ class StartedProjectWorkTokenServiceClientTest {
             .get(eq("/started-project-work-token/token/$token/collaborators/working"),
                 any<TypeReference<List<String?>>>())
 
-        val actualIds = serviceClientSpy.findWorkingCollaboratorIdsByToken(token)
+        val actualIds = serviceClient.findWorkingCollaboratorIdsByToken(token)
 
         assertSame(expectedIds, actualIds)
     }
@@ -104,7 +104,7 @@ class StartedProjectWorkTokenServiceClientTest {
             .`when`(httpClientSpy)
             .get("/started-project-work-token/project/$projectId/exists", Boolean::class.java)
 
-        val exists = serviceClientSpy.existsById(projectId)
+        val exists = serviceClient.existsById(projectId)
 
         assertTrue(exists)
     }

@@ -17,11 +17,11 @@ class WorklogDescriptionServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var serviceClientSpy: WorklogDescriptionServiceClient
+    private lateinit var serviceClient: WorklogDescriptionServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = WorklogDescriptionServiceClient(httpClientSpy)
+        serviceClient = WorklogDescriptionServiceClient(httpClientSpy)
     }
 
     @Test
@@ -32,7 +32,7 @@ class WorklogDescriptionServiceClientTest {
             .`when`(httpClientSpy)
             .get("/worklog/interval/$intervalId/status/description")
 
-        val actualDescription = serviceClientSpy.getDescription(intervalId)
+        val actualDescription = serviceClient.getDescription(intervalId)
 
         assertSame(expectedDescription, actualDescription)
     }
@@ -42,7 +42,7 @@ class WorklogDescriptionServiceClientTest {
         val description = "description"
         val intervalId = "intervalId"
 
-        serviceClientSpy.updateDescription(intervalId, description)
+        serviceClient.updateDescription(intervalId, description)
 
         verify(httpClientSpy).post("/worklog/interval/$intervalId/status/description/update", description)
     }
@@ -52,7 +52,7 @@ class WorklogDescriptionServiceClientTest {
         val description = "description"
         val collaboratorId = "collaboratorId"
 
-        serviceClientSpy.updateDescriptionByCollaboratorId(collaboratorId, description)
+        serviceClient.updateDescriptionByCollaboratorId(collaboratorId, description)
 
         verify(httpClientSpy).post("/worklog/collaborator/$collaboratorId/status/description/update", description)
     }

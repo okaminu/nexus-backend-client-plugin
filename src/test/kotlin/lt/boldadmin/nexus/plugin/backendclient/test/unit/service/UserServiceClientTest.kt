@@ -123,7 +123,9 @@ class UserServiceClientTest {
     fun `User has collaborator`() {
         val userId = "userId"
         val collaboratorId = "collaboratorId"
-        doReturn(true).`when`(httpClientSpy).get("/user/$userId/collaborator/$collaboratorId/has-collaborator", Boolean::class.java)
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get("/user/$userId/collaborator/$collaboratorId/has-collaborator", Boolean::class.java)
 
         val hasCollaborator = userServiceClient.doesUserHaveCollaborator(userId, collaboratorId)
 
@@ -135,7 +137,9 @@ class UserServiceClientTest {
         val userId = "userId"
         val projectId = "projectId"
         val projectName = "projectName"
-        doReturn(true).`when`(httpClientSpy).get("/user/$userId/project/$projectId/name/$projectName/is-unique", Boolean::class.java)
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get("/user/$userId/project/$projectId/name/$projectName/is-unique", Boolean::class.java)
 
         val isUnique = userServiceClient.isProjectNameUnique(projectName, projectId, userId)
 

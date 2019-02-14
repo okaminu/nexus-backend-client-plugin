@@ -18,11 +18,11 @@ class ProjectServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var projectServiceClientSpy: ProjectServiceClient
+    private lateinit var projectServiceClient: ProjectServiceClient
 
     @Before
     fun setUp() {
-        projectServiceClientSpy = ProjectServiceClient(httpClientSpy)
+        projectServiceClient = ProjectServiceClient(httpClientSpy)
     }
 
     @Test
@@ -31,7 +31,7 @@ class ProjectServiceClientTest {
         val attributeValue = "attributeValue"
         val projectId = "projectId"
 
-        projectServiceClientSpy.update(projectId, attributeName, attributeValue)
+        projectServiceClient.update(projectId, attributeName, attributeValue)
 
         verify(httpClientSpy).post("/project/$projectId/attribute/$attributeName/update", attributeValue)
     }
@@ -41,7 +41,7 @@ class ProjectServiceClientTest {
         val orderNumber: Short = 5
         val projectId = "projectId"
 
-        projectServiceClientSpy.updateOrderNumber(projectId, orderNumber)
+        projectServiceClient.updateOrderNumber(projectId, orderNumber)
 
         verify(httpClientSpy).post("/project/$projectId/attribute/order-number/update", orderNumber)
     }
@@ -50,9 +50,11 @@ class ProjectServiceClientTest {
     fun `Creates project with defaults`() {
         val expectedProject = Project()
         val userId = "userId"
-        doReturn(expectedProject).`when`(httpClientSpy).get("/project/user/$userId/create-with-defaults", Project::class.java)
+        doReturn(expectedProject)
+            .`when`(httpClientSpy)
+            .get("/project/user/$userId/create-with-defaults", Project::class.java)
 
-        val actualProject = projectServiceClientSpy.createWithDefaults(userId)
+        val actualProject = projectServiceClient.createWithDefaults(userId)
 
         assertSame(expectedProject, actualProject)
     }
@@ -63,7 +65,7 @@ class ProjectServiceClientTest {
         val projectId = "projectId"
         doReturn(expectedProject).`when`(httpClientSpy).get("/project/$projectId", Project::class.java)
 
-        val actualProject = projectServiceClientSpy.getById(projectId)
+        val actualProject = projectServiceClient.getById(projectId)
 
         assertSame(expectedProject, actualProject)
     }

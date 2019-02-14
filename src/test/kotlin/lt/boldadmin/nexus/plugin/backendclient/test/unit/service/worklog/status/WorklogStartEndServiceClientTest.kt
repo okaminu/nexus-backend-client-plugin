@@ -20,11 +20,11 @@ class WorklogStartEndServiceClientTest {
     @Mock
     private lateinit var httpClientSpy: BackendHttpClient
 
-    private lateinit var serviceClientSpy: WorklogStartEndServiceClient
+    private lateinit var serviceClient: WorklogStartEndServiceClient
 
     @Before
     fun setUp() {
-        serviceClientSpy = WorklogStartEndServiceClient(httpClientSpy)
+        serviceClient = WorklogStartEndServiceClient(httpClientSpy)
     }
 
     @Test
@@ -35,7 +35,7 @@ class WorklogStartEndServiceClientTest {
             .`when`(httpClientSpy)
             .get("/worklog/collaborator/$collaboratorId/status/project-of-started-work", Project::class.java)
 
-        val actualProject = serviceClientSpy.getProjectOfStartedWork(collaboratorId)
+        val actualProject = serviceClient.getProjectOfStartedWork(collaboratorId)
 
         assertSame(expectedProject, actualProject)
     }
@@ -45,7 +45,7 @@ class WorklogStartEndServiceClientTest {
         val project = Project()
         val collaborator = Collaborator()
 
-        serviceClientSpy.start(collaborator, project)
+        serviceClient.start(collaborator, project)
 
         verify(httpClientSpy).postAsJson("/worklog/status/start", Pair(collaborator, project))
     }
@@ -56,7 +56,7 @@ class WorklogStartEndServiceClientTest {
         val collaborator = Collaborator()
         val timestamp: Long = 1234
 
-        serviceClientSpy.start(collaborator, project, timestamp)
+        serviceClient.start(collaborator, project, timestamp)
 
         verify(httpClientSpy)
             .postAsJson("/worklog/status/start/timestamp/$timestamp", Pair(collaborator, project))
@@ -66,7 +66,7 @@ class WorklogStartEndServiceClientTest {
     fun `Ends work for collaborator on project`() {
         val collaborator = Collaborator()
 
-        serviceClientSpy.end(collaborator)
+        serviceClient.end(collaborator)
 
         verify(httpClientSpy).postAsJson("/worklog/status/end", collaborator)
     }
@@ -76,7 +76,7 @@ class WorklogStartEndServiceClientTest {
         val collaborator = Collaborator()
         val timestamp: Long = 1234
 
-        serviceClientSpy.end(collaborator, timestamp)
+        serviceClient.end(collaborator, timestamp)
 
         verify(httpClientSpy)
             .postAsJson("/worklog/status/end/timestamp/$timestamp", collaborator)
@@ -84,7 +84,7 @@ class WorklogStartEndServiceClientTest {
 
     @Test
     fun `Ends all started work on collaborators whose work time has ended`() {
-        serviceClientSpy.endAllStartedWorkWhereWorkTimeEnded()
+        serviceClient.endAllStartedWorkWhereWorkTimeEnded()
 
         verify(httpClientSpy)
             .postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
@@ -97,7 +97,7 @@ class WorklogStartEndServiceClientTest {
             .`when`(httpClientSpy)
             .get("/worklog/collaborator/$collaboratorId/status/has-work-started", Boolean::class.java)
 
-        val hasStarted = serviceClientSpy.hasWorkStarted(collaboratorId)
+        val hasStarted = serviceClient.hasWorkStarted(collaboratorId)
 
         assertTrue(hasStarted)
     }
@@ -109,7 +109,7 @@ class WorklogStartEndServiceClientTest {
             .`when`(httpClientSpy)
             .get("/worklog/collaborator/$collaboratorId/status/has-work-ended", Boolean::class.java)
 
-        val hasStarted = serviceClientSpy.hasWorkEnded(collaboratorId)
+        val hasStarted = serviceClient.hasWorkEnded(collaboratorId)
 
         assertTrue(hasStarted)
     }
