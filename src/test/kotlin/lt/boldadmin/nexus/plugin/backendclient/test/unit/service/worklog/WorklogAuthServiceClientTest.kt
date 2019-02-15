@@ -58,8 +58,10 @@ class WorklogAuthServiceClientTest {
         doReturn(true).`when`(httpClientStub).get("/worklog/intervals/$intervalId1,$intervalId2" +
             "/collaborator/$collaboratorId/has-intervals", Boolean::class.java)
 
-        val exists = serviceClient.
-            doesCollaboratorHaveWorkLogIntervals(collaboratorId, listOf(intervalId1, intervalId2))
+        val exists = serviceClient.doesCollaboratorHaveWorkLogIntervals(
+            collaboratorId,
+            listOf(intervalId1, intervalId2)
+        )
 
         assertTrue(exists)
     }

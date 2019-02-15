@@ -19,8 +19,8 @@ class BackendHttpClient(
     fun <T> get(path: String, clazz: Class<T>) =
         objectMapper.readValue(get(path), clazz) ?: throw CannotConvertJsonException
 
-    fun <T> get(path: String, typeReference: TypeReference<T>): T = objectMapper.readValue(get(path), typeReference)
-        ?: throw CannotConvertJsonException
+    fun <T> get(path: String, typeReference: TypeReference<T>): T =
+        objectMapper.readValue(get(path), typeReference) ?: throw CannotConvertJsonException
 
     fun get(path: String) =
         get(
