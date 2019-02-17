@@ -1,6 +1,8 @@
 package lt.boldadmin.nexus.plugin.backendclient.service
 
+import com.fasterxml.jackson.core.type.TypeReference
 import lt.boldadmin.nexus.api.service.UserService
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
@@ -19,6 +21,9 @@ class UserServiceClient(private val httpClient: BackendHttpClient): UserService 
     override fun existsByEmail(email: String) = httpClient.get("/user/email/$email/exists", Boolean::class.java)
 
     override fun getByProjectId(projectId: String) = httpClient.get("/user/project/$projectId", User::class.java)
+
+    override fun getCollaborators(userId: String) =
+        httpClient.get("/user/$userId/collaborators", object: TypeReference<Set<Collaborator>>(){})
 
     override fun doesUserHaveCustomer(userId: String, customerId: String) =
         httpClient.get("/user/$userId/customer/$customerId/has-customer", Boolean::class.java)

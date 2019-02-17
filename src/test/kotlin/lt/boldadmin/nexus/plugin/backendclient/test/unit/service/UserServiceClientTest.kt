@@ -1,7 +1,8 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.fasterxml.jackson.core.type.TypeReference
+import com.nhaarman.mockito_kotlin.*
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.UserServiceClient
@@ -84,6 +85,18 @@ class UserServiceClientTest {
         val actualUser = userServiceClient.getByProjectId(projectId)
 
         assertSame(expectedUser, actualUser)
+    }
+
+    @Test
+    fun `Gets collaborators by user id`() {
+        val expectedCollaborators = setOf(Collaborator())
+        val userId = "userId"
+        doReturn(expectedCollaborators)
+            .`when`(httpClientSpy).get(eq("/user/$userId/collaborators"), any<TypeReference<Set<Collaborator>>>())
+
+        val actualCollaborators = userServiceClient.getCollaborators(userId)
+
+        assertSame(expectedCollaborators, actualCollaborators)
     }
 
     @Test

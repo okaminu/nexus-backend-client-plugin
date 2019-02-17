@@ -18,6 +18,4 @@ class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogSe
     override fun getIntervalEndpoints(intervalId: String) =
         httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>(){})
 
-    override fun existsByProjectIdAndCollaboratorId(projectId: String, collaboratorId: String) =
-        httpClient.get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
 }

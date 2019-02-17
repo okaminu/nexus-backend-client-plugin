@@ -20,6 +20,12 @@ class WorklogStartEndServiceClient(private val httpClient: BackendHttpClient): W
     override fun hasWorkStarted(collaboratorId: String) =
         httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-started", Boolean::class.java)
 
+    override fun hasWorkStarted(collaboratorId: String, projectId: String) =
+        httpClient.get(
+            "/worklog/collaborator/$collaboratorId/project/$projectId/status/has-work-started",
+            Boolean::class.java
+        )
+
     override fun end(collaborator: Collaborator) =
         httpClient.postAsJson("/worklog/status/end", collaborator)
 

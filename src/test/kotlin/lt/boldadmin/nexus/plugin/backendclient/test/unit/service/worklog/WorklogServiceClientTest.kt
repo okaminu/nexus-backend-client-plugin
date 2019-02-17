@@ -69,19 +69,6 @@ class WorklogServiceClientTest {
     }
 
     @Test
-    fun `Exists by collaborator and project ids`() {
-        val projectId = "projectId"
-        val collaboratorId = "collaboratorId"
-        doReturn(true)
-            .`when`(httpClientSpy)
-            .get("/worklog/project/$projectId/collaborator/$collaboratorId/exists", Boolean::class.java)
-
-        val exists = worklogServiceClient.existsByProjectIdAndCollaboratorId(projectId, collaboratorId)
-
-        assertTrue(exists)
-    }
-
-    @Test
     fun `Saves worklog`() {
         val worklog = Worklog()
 

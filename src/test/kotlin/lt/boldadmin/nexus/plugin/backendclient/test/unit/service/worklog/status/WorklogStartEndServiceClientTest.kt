@@ -103,6 +103,22 @@ class WorklogStartEndServiceClientTest {
     }
 
     @Test
+    fun `Work has started for collaborator in a project`() {
+        val collaboratorId = "collaboratorId"
+        val projectId = "projectId"
+        doReturn(true)
+            .`when`(httpClientSpy)
+            .get(
+                "/worklog/collaborator/$collaboratorId/project/$projectId/status/has-work-started",
+                Boolean::class.java
+            )
+
+        val hasStarted = serviceClient.hasWorkStarted(collaboratorId, projectId)
+
+        assertTrue(hasStarted)
+    }
+
+    @Test
     fun `Work has ended for collaborator`() {
         val collaboratorId = "collaboratorId"
         doReturn(true)
