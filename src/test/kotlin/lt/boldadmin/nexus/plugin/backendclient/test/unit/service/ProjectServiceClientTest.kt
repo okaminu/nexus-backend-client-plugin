@@ -3,6 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.type.entity.Project
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.ProjectServiceClient
 import org.junit.Before
@@ -44,6 +45,16 @@ class ProjectServiceClientTest {
         projectServiceClient.updateOrderNumber(projectId, orderNumber)
 
         verify(httpClientSpy).post("/project/$projectId/attribute/order-number/update", orderNumber)
+    }
+
+    @Test
+    fun `Updates location`() {
+        val location = Location(0.0, 0.0)
+        val projectId = "projectId"
+
+        projectServiceClient.updateLocation(projectId, location)
+
+        verify(httpClientSpy).postAsJson("/project/$projectId/attribute/location/update", location)
     }
 
     @Test

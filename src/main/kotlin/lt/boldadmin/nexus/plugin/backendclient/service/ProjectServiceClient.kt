@@ -2,6 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectService {
@@ -16,4 +17,7 @@ class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectSe
 
     override fun updateOrderNumber(projectId: String, orderNumber: Short) =
         httpClient.post("/project/$projectId/attribute/order-number/update", orderNumber)
+
+    override fun updateLocation(projectId: String, location: Location) =
+        httpClient.postAsJson("/project/$projectId/attribute/location/update", location)
 }
