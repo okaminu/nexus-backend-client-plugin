@@ -58,6 +58,15 @@ class ProjectServiceClientTest {
     }
 
     @Test
+    fun `Deletes location`() {
+        val projectId = "projectId"
+
+        projectServiceClient.deleteLocation(projectId)
+
+        verify(httpClientSpy).delete("/project/$projectId/attribute/location")
+    }
+
+    @Test
     fun `Creates project with defaults`() {
         val expectedProject = Project()
         val userId = "userId"

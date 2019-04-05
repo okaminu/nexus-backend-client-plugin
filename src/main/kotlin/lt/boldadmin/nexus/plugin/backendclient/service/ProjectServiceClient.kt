@@ -20,4 +20,6 @@ class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectSe
 
     override fun updateLocation(projectId: String, location: Location) =
         httpClient.postAsJson("/project/$projectId/attribute/location/update", location)
+
+    override fun deleteLocation(projectId: String) = httpClient.delete("/project/$projectId/attribute/location")
 }
