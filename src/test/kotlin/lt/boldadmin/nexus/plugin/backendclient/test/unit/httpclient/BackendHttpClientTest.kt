@@ -2,10 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.httpclient
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
@@ -61,7 +58,7 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as string`() {
         val expectedResponse = "expectedResponse"
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(expectedResponse).`when`(httpResponseStub).body()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
@@ -73,7 +70,7 @@ class BackendHttpClientTest {
     @Test
     fun `Gets no body exception`() {
         doReturn(null).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         expectedException.expect(NoBodyException::class.java)
@@ -88,7 +85,7 @@ class BackendHttpClientTest {
 
         doReturn(expectedProject).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         val actualProject = backendHttpClient.get(PATH, Project::class.java)
@@ -101,7 +98,7 @@ class BackendHttpClientTest {
         val projectAsJson = "projectAsJson"
         doReturn(null).`when`(objectMapperStub).readValue(projectAsJson, Project::class.java)
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         expectedException.expect(CannotConvertJsonException::class.java)
@@ -116,7 +113,7 @@ class BackendHttpClientTest {
             .`when`(objectMapperStub)
             .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         expectedException.expect(CannotConvertJsonException::class.java)
@@ -133,7 +130,7 @@ class BackendHttpClientTest {
             .`when`(objectMapperStub)
             .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
         doReturn(projectAsJson).`when`(httpResponseStub).body()
-        val request = newBuilder().uri(createUri(PATH)).GET().build()
+        val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>(){})
@@ -145,7 +142,7 @@ class BackendHttpClientTest {
     fun `Posts without body`() {
         backendHttpClient.postWithoutBody(PATH)
 
-        val request = newBuilder().uri(createUri(PATH))
+        val request = newBuilder().uri(createUri())
             .POST(BodyPublishers.noBody())
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
@@ -155,7 +152,7 @@ class BackendHttpClientTest {
     fun `Posts value as string`() {
         backendHttpClient.post(PATH, "value")
 
-        val request = newBuilder().uri(createUri(PATH))
+        val request = newBuilder().uri(createUri())
             .POST(BodyPublishers.ofString("value"))
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
@@ -169,7 +166,7 @@ class BackendHttpClientTest {
 
         backendHttpClient.post(PATH, project)
 
-        val request = newBuilder().uri(createUri(PATH))
+        val request = newBuilder().uri(createUri())
             .POST(BodyPublishers.ofString(projectAsJson))
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
@@ -183,19 +180,29 @@ class BackendHttpClientTest {
 
         backendHttpClient.postAsJson(PATH, project)
 
-        val request = newBuilder().uri(createUri(PATH))
+        val request = newBuilder().uri(createUri())
             .headers("Content-Type", "application/json")
             .POST(BodyPublishers.ofString(projectAsJson))
             .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
     }
 
-    private fun createUri(path: String) = URI(
+    @Test
+    fun `Sends DELETE request`() {
+        backendHttpClient.delete(PATH)
+
+        val request = newBuilder().uri(createUri())
+            .DELETE()
+            .build()
+        verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
+    }
+
+    private fun createUri() = URI(
         BACKEND_PROTOCOL,
         null,
         BACKEND_BASE_URL,
         BACKEND_PORT,
-        path,
+        PATH,
         null,
         null
     )
