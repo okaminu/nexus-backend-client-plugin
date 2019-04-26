@@ -77,6 +77,16 @@ class UserServiceClientTest {
     }
 
     @Test
+    fun `Exists by company name`() {
+        val companyName = "boldadmin"
+        doReturn(true).`when`(httpClientSpy).get("/user/company-name/$companyName/exists", Boolean::class.java)
+
+        val exists = userServiceClient.existsByCompanyName(companyName)
+
+        assertTrue(exists)
+    }
+
+    @Test
     fun `Gets user by project id`() {
         val expectedUser = User()
         val projectId = "projectId"
@@ -108,17 +118,6 @@ class UserServiceClientTest {
         val actualUser = userServiceClient.getByEmail(email)
 
         assertSame(expectedUser, actualUser)
-    }
-
-    @Test
-    fun `User has customer`() {
-        val userId = "userId"
-        val customerId = "customerId"
-        doReturn(true).`when`(httpClientSpy).get("/user/$userId/customer/$customerId/has-customer", Boolean::class.java)
-
-        val hasCustomer = userServiceClient.doesUserHaveCustomer(userId, customerId)
-
-        assertTrue(hasCustomer)
     }
 
     @Test
