@@ -12,4 +12,8 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
         return httpClient.get("/worklog/intervals/${workLogIntervalIds.joinToString(",")}/durations-sum", Long::class.java)
     }
+
+     override fun sumWorkDurationsByCollaboratorId(collaboratorId: String): Long {
+          return httpClient.get("/worklog/collaborator/$collaboratorId/durations-sum", Long::class.java)
+     }
 }

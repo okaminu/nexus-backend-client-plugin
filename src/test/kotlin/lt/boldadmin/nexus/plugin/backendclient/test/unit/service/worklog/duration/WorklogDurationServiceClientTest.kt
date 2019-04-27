@@ -27,7 +27,8 @@ class WorklogDurationServiceClientTest {
     fun `Measures duration`() {
         val intervalId = "intervalId"
         val expectedDuration: Long = 404
-        doReturn(expectedDuration).`when`(httpClientStub).get("/worklog/interval/$intervalId/duration", Long::class.java)
+        doReturn(expectedDuration).`when`(httpClientStub)
+            .get("/worklog/interval/$intervalId/duration", Long::class.java)
 
         val actualDuration = serviceClient.measureDuration(intervalId)
 
@@ -46,6 +47,19 @@ class WorklogDurationServiceClientTest {
         val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
 
         assertEquals(expectedDurationSum, actualDurationSum)
+    }
+
+    @Test
+    fun `Gets worklog durations sum by collaborator`() {
+        val collaboratorId = "id"
+        val expectedDurationsSum: Long = 200
+        doReturn(expectedDurationsSum)
+            .`when`(httpClientStub)
+            .get("/worklog/collaborator/id/durations-sum", Long::class.java)
+
+        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId(collaboratorId)
+
+        assertEquals(expectedDurationsSum, actualDurationsSum)
     }
 
     @Test
