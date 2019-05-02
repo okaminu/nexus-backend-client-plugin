@@ -8,15 +8,6 @@ class WorklogDurationServiceClient(private val httpClient: BackendHttpClient): W
     override fun measureDuration(intervalId: String) =
         httpClient.get("/worklog/interval/$intervalId/duration", Long::class.java)
 
-    override fun sumWorkDurations(workLogIntervalIds: Collection<String>): Long {
-        if (workLogIntervalIds.isEmpty()) return 0
-
-        return httpClient.get(
-            "/worklog/intervals/${workLogIntervalIds.joinToString(",")}/durations-sum",
-            Long::class.java
-        )
-    }
-
     override fun sumWorkDurationsByCollaboratorId(collaboratorId: String): Long {
         return httpClient.get("/worklog/collaborator/$collaboratorId/durations-sum", Long::class.java)
     }

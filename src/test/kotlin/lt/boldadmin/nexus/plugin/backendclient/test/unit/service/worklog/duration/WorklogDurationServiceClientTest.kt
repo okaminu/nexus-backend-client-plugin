@@ -35,19 +35,19 @@ class WorklogDurationServiceClientTest {
         assertEquals(expectedDuration, actualDuration)
     }
 
-    @Test
-    fun `Calculates sum for multiple intervals`() {
-        val intervalId1 = "intervalId1"
-        val intervalId2 = "intervalId2"
-        val expectedDurationSum: Long = 404
-        doReturn(expectedDurationSum)
-            .`when`(httpClientStub)
-            .get("/worklog/intervals/$intervalId1,$intervalId2/durations-sum", Long::class.java)
-
-        val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
-
-        assertEquals(expectedDurationSum, actualDurationSum)
-    }
+//    @Test
+//    fun `Calculates sum for multiple intervals`() {
+//        val intervalId1 = "intervalId1"
+//        val intervalId2 = "intervalId2"
+//        val expectedDurationSum: Long = 404
+//        doReturn(expectedDurationSum)
+//            .`when`(httpClientStub)
+//            .get("/worklog/intervals/$intervalId1,$intervalId2/durations-sum", Long::class.java)
+//
+//        val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
+//
+//        assertEquals(expectedDurationSum, actualDurationSum)
+//    }
 
     @Test
     fun `Gets worklog durations sum by collaborator id`() {
@@ -73,12 +73,5 @@ class WorklogDurationServiceClientTest {
         val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId(projectId)
 
         assertEquals(expectedDurationsSum, actualDurationsSum)
-    }
-
-    @Test
-    fun `Collaborator has no worklog intervals when none are given`() {
-        val durationSum = serviceClient.sumWorkDurations(emptyList())
-
-        assertEquals(0, durationSum)
     }
 }
