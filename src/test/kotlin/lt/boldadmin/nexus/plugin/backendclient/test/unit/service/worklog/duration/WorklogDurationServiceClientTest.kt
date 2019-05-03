@@ -35,42 +35,26 @@ class WorklogDurationServiceClientTest {
         assertEquals(expectedDuration, actualDuration)
     }
 
-//    @Test
-//    fun `Calculates sum for multiple intervals`() {
-//        val intervalId1 = "intervalId1"
-//        val intervalId2 = "intervalId2"
-//        val expectedDurationSum: Long = 404
-//        doReturn(expectedDurationSum)
-//            .`when`(httpClientStub)
-//            .get("/worklog/intervals/$intervalId1,$intervalId2/durations-sum", Long::class.java)
-//
-//        val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
-//
-//        assertEquals(expectedDurationSum, actualDurationSum)
-//    }
-
     @Test
     fun `Gets worklog durations sum by collaborator id`() {
-        val collaboratorId = "id"
         val expectedDurationsSum: Long = 200
         doReturn(expectedDurationsSum)
             .`when`(httpClientStub)
             .get("/worklog/collaborator/id/durations-sum", Long::class.java)
 
-        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId(collaboratorId)
+        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId("id")
 
         assertEquals(expectedDurationsSum, actualDurationsSum)
     }
 
     @Test
     fun `Gets worklog durations sum by project id`() {
-        val projectId = "id"
         val expectedDurationsSum: Long = 200
         doReturn(expectedDurationsSum)
             .`when`(httpClientStub)
             .get("/worklog/project/id/durations-sum", Long::class.java)
 
-        val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId(projectId)
+        val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId("id")
 
         assertEquals(expectedDurationsSum, actualDurationsSum)
     }
