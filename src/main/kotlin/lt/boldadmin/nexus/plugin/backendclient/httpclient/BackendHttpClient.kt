@@ -56,6 +56,14 @@ class BackendHttpClient(
         )
     }
 
+    fun delete(path: String) {
+        delete(
+            createRequestBuilder(path)
+                .DELETE()
+                .build()
+        )
+    }
+
     private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
 
     private fun createUri(path: String) = URI(
@@ -71,4 +79,6 @@ class BackendHttpClient(
     private fun get(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
 
     private fun post(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
+
+    private fun delete(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
 }
