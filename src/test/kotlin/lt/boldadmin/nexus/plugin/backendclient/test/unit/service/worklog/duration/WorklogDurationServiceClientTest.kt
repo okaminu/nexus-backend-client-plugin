@@ -27,7 +27,8 @@ class WorklogDurationServiceClientTest {
     fun `Measures duration`() {
         val intervalId = "intervalId"
         val expectedDuration: Long = 404
-        doReturn(expectedDuration).`when`(httpClientStub).get("/worklog/interval/$intervalId/duration", Long::class.java)
+        doReturn(expectedDuration).`when`(httpClientStub)
+            .get("/worklog/interval/$intervalId/duration", Long::class.java)
 
         val actualDuration = serviceClient.measureDuration(intervalId)
 
@@ -35,23 +36,28 @@ class WorklogDurationServiceClientTest {
     }
 
     @Test
-    fun `Calculates sum for multiple intervals`() {
-        val intervalId1 = "intervalId1"
-        val intervalId2 = "intervalId2"
-        val expectedDurationSum: Long = 404
-        doReturn(expectedDurationSum)
+    fun `Gets worklog durations sum by collaborator id`() {
+        val collaboratorId = "id"
+        val expectedDurationsSum: Long = 200
+        doReturn(expectedDurationsSum)
             .`when`(httpClientStub)
-            .get("/worklog/intervals/$intervalId1,$intervalId2/durations-sum", Long::class.java)
+            .get("/worklog/collaborator/$collaboratorId/durations-sum", Long::class.java)
 
-        val actualDurationSum = serviceClient.sumWorkDurations(listOf(intervalId1, intervalId2))
+        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId(collaboratorId)
 
-        assertEquals(expectedDurationSum, actualDurationSum)
+        assertEquals(expectedDurationsSum, actualDurationsSum)
     }
 
     @Test
-    fun `Collaborator has no worklog intervals when none are given`() {
-        val durationSum = serviceClient.sumWorkDurations(emptyList())
+    fun `Gets worklog durations sum by project id`() {
+        val projectId = "id"
+        val expectedDurationsSum: Long = 200
+        doReturn(expectedDurationsSum)
+            .`when`(httpClientStub)
+            .get("/worklog/project/$projectId/durations-sum", Long::class.java)
 
-        assertEquals(0, durationSum)
+        val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId(projectId)
+
+        assertEquals(expectedDurationsSum, actualDurationsSum)
     }
 }
