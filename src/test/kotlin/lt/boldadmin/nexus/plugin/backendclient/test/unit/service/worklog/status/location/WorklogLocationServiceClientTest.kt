@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status.location
 
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient

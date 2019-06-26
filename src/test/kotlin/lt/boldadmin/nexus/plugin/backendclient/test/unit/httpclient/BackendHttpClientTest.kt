@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.httpclient
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
