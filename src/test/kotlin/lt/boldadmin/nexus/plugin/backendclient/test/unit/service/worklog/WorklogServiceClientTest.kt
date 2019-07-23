@@ -1,10 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogServiceClient
@@ -29,29 +26,29 @@ class WorklogServiceClientTest {
     }
 
     @Test
-    fun `Gets worklogs by collaborator id`() {
-        val expectedWorklogs = listOf(Worklog(id = "worklog1"), Worklog(id = "worklog2"))
+    fun `Gets interval ids by collaborator id`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
         val collaboratorId = "collaboratorId"
-        doReturn(expectedWorklogs)
+        doReturn(expectedIntervalIds)
             .`when`(httpClientSpy)
-            .get(eq("/worklog/collaborator/$collaboratorId"), any<TypeReference<Collection<Worklog>>>())
+            .get(eq("/worklog/collaborator/$collaboratorId/interval-ids"), any<TypeReference<Collection<String>>>())
 
-        val actualWorklogs = worklogServiceClient.getByCollaboratorId(collaboratorId)
+        val actualIntervalIds = worklogServiceClient.getIntervalIdsByCollaboratorId(collaboratorId)
 
-        assertSame(expectedWorklogs, actualWorklogs)
+        assertSame(expectedIntervalIds, actualIntervalIds)
     }
 
     @Test
-    fun `Gets worklogs by project id`() {
-        val expectedWorklogs = listOf(Worklog(id = "worklog1"), Worklog(id = "worklog2"))
+    fun `Gets interval ids by project id`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
         val projectId = "projectId"
-        doReturn(expectedWorklogs)
+        doReturn(expectedIntervalIds)
             .`when`(httpClientSpy)
-            .get(eq("/worklog/project/$projectId"), any<TypeReference<Collection<Worklog>>>())
+            .get(eq("/worklog/project/$projectId/interval-ids"), any<TypeReference<Collection<String>>>())
 
-        val actualWorklogs = worklogServiceClient.getByProjectId(projectId)
+        val actualWorklogs = worklogServiceClient.getIntervalIdsByProjectId(projectId)
 
-        assertSame(expectedWorklogs, actualWorklogs)
+        assertSame(expectedIntervalIds, actualWorklogs)
     }
 
     @Test

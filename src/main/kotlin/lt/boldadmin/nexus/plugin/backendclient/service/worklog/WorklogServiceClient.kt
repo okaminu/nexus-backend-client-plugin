@@ -9,11 +9,11 @@ class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogSe
 
     override fun save(worklog: Worklog) = httpClient.postAsJson("/worklog/save", worklog)
 
-    override fun getByCollaboratorId(id: String) =
-        httpClient.get("/worklog/collaborator/$id", object: TypeReference<Collection<Worklog>>() {})
+    override fun getIntervalIdsByCollaboratorId(id: String): Collection<String> =
+        httpClient.get("/worklog/collaborator/$id/interval-ids", object : TypeReference<Collection<String>>() {})
 
-    override fun getByProjectId(id: String) =
-        httpClient.get("/worklog/project/$id", object: TypeReference<Collection<Worklog>>() {})
+    override fun getIntervalIdsByProjectId(id: String): Collection<String> =
+        httpClient.get("/worklog/project/$id/interval-ids", object: TypeReference<Collection<String>>() {})
 
     override fun getIntervalEndpoints(intervalId: String) =
         httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>() {})
