@@ -5,8 +5,6 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogService {
     override fun getIntervalIdsByCollaboratorId(id: String, dateRange: DateRange): Collection<String> =
@@ -31,7 +29,4 @@ class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogSe
 
     override fun getIntervalEndpoints(intervalId: String) =
         httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>() {})
-
-    private fun LocalDate.format() = this.format(DateTimeFormatter.ISO_LOCAL_DATE)
-
 }
