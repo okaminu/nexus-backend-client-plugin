@@ -3,14 +3,14 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.durati
 import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.duration.WorklogDurationServiceClient
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertEquals
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogDurationServiceClientTest {
 
     @Mock
@@ -18,7 +18,7 @@ class WorklogDurationServiceClientTest {
 
     private lateinit var serviceClient: WorklogDurationServiceClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         serviceClient = WorklogDurationServiceClient(httpClientStub)
     }

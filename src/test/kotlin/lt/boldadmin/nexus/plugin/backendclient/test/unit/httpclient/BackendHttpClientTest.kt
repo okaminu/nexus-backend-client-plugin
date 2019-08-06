@@ -8,26 +8,21 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.CannotConvertJsonException
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.NoBodyException
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.ExpectedException
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpRequest.newBuilder
 import java.net.http.HttpResponse
-import kotlin.test.assertSame
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class BackendHttpClientTest {
-
-    @Rule
-    @JvmField
-    val expectedException = ExpectedException.none()!!
 
     @Mock
     private lateinit var httpClientSpy: HttpClient
@@ -43,7 +38,7 @@ class BackendHttpClientTest {
 
     private lateinit var backendHttpClient: BackendHttpClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         backendHttpClient = BackendHttpClient(
             httpClientSpy,
@@ -73,9 +68,9 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        expectedException.expect(NoBodyException::class.java)
-
-        backendHttpClient.get(PATH)
+        assertThrows(NoBodyException::class.java) {
+            backendHttpClient.get(PATH)
+        }
     }
 
     @Test
@@ -101,9 +96,9 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        expectedException.expect(CannotConvertJsonException::class.java)
-
-        backendHttpClient.get(PATH, Project::class.java)
+        assertThrows(CannotConvertJsonException::class.java) {
+            backendHttpClient.get(PATH, Project::class.java)
+        }
     }
 
     @Test
@@ -116,9 +111,9 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        expectedException.expect(CannotConvertJsonException::class.java)
-
-        backendHttpClient.get(PATH, object : TypeReference<Project>() {})
+        assertThrows(CannotConvertJsonException::class.java) {
+            backendHttpClient.get(PATH, object : TypeReference<Project>() {})
+        }
     }
 
 

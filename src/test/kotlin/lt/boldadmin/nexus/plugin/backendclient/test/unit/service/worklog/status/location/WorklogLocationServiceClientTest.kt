@@ -6,7 +6,7 @@ import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.location.WorklogLocationServiceClient
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class WorklogLocationServiceClientTest {
 

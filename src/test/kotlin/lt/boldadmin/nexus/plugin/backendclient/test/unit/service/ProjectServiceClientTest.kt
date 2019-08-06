@@ -7,14 +7,14 @@ import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.ProjectServiceClient
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertSame
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class ProjectServiceClientTest {
 
     @Mock
@@ -22,7 +22,7 @@ class ProjectServiceClientTest {
 
     private lateinit var projectServiceClient: ProjectServiceClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         projectServiceClient = ProjectServiceClient(httpClientSpy)
     }

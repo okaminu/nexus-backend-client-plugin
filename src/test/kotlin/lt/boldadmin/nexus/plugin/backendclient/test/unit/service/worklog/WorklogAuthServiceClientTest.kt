@@ -3,15 +3,15 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogAuthServiceClient
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogAuthServiceClientTest {
 
     @Mock
@@ -19,7 +19,7 @@ class WorklogAuthServiceClientTest {
 
     private lateinit var serviceClient: WorklogAuthServiceClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         serviceClient = WorklogAuthServiceClient(httpClientStub)
     }

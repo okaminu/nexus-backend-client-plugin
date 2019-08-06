@@ -5,8 +5,8 @@ import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.type.valueobject.Country
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.CountryServiceClient
-import org.junit.Test
-import kotlin.test.assertSame
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Test
 
 class CountryServiceClientTest {
 

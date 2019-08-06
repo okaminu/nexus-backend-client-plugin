@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.valueobject.Message
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.message.WorklogMessageServiceClient
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class WorklogMessageServiceClientTest {
 

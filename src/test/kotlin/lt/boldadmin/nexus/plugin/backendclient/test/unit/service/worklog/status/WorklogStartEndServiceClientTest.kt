@@ -6,15 +6,15 @@ import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.WorklogStartEndServiceClient
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertSame
-import kotlin.test.assertTrue
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogStartEndServiceClientTest {
 
     @Mock
@@ -22,7 +22,7 @@ class WorklogStartEndServiceClientTest {
 
     private lateinit var serviceClient: WorklogStartEndServiceClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         serviceClient = WorklogStartEndServiceClient(httpClientSpy)
     }
