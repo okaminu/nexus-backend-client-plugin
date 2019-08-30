@@ -1,9 +1,9 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.eventpublisher
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.kafka.factory
 
 import io.mockk.every
 import io.mockk.mockk
 import lt.boldadmin.nexus.plugin.backendclient.kafka.KafkaServerAddressProvider
-import lt.boldadmin.nexus.plugin.backendclient.kafka.PropertiesFactory
+import lt.boldadmin.nexus.plugin.backendclient.kafka.factory.PropertiesFactory
 import org.apache.kafka.common.serialization.StringSerializer
 import org.junit.Test
 import java.math.BigInteger
@@ -22,7 +22,9 @@ class PropertiesFactoryTest {
             this["value.serializer"] = BigInteger::class.java
         }
 
-        val actualProperties = PropertiesFactory(addressProviderSpy).create(BigInteger::class.java)
+        val actualProperties = PropertiesFactory(
+            addressProviderSpy
+        ).create(BigInteger::class.java)
 
         assertEquals(expectedProperties, actualProperties)
     }

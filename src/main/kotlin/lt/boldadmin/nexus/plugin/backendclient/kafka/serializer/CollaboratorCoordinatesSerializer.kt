@@ -1,4 +1,4 @@
-package lt.boldadmin.nexus.plugin.backendclient.serializer
+package lt.boldadmin.nexus.plugin.backendclient.kafka.serializer
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates

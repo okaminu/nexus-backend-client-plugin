@@ -3,9 +3,9 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.plugin.backendclient.kafka.KafkaProducerFactory
-import lt.boldadmin.nexus.plugin.backendclient.kafka.PropertiesFactory
-import lt.boldadmin.nexus.plugin.backendclient.serializer.CollaboratorCoordinatesSerializer
+import lt.boldadmin.nexus.plugin.backendclient.kafka.factory.KafkaProducerFactory
+import lt.boldadmin.nexus.plugin.backendclient.kafka.factory.PropertiesFactory
+import lt.boldadmin.nexus.plugin.backendclient.kafka.serializer.CollaboratorCoordinatesSerializer
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.location.WorklogLocationServiceClient
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord

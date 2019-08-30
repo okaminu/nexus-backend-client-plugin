@@ -2,9 +2,9 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.location
 
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.plugin.backendclient.kafka.KafkaProducerFactory
-import lt.boldadmin.nexus.plugin.backendclient.kafka.PropertiesFactory
-import lt.boldadmin.nexus.plugin.backendclient.serializer.CollaboratorCoordinatesSerializer
+import lt.boldadmin.nexus.plugin.backendclient.kafka.factory.KafkaProducerFactory
+import lt.boldadmin.nexus.plugin.backendclient.kafka.factory.PropertiesFactory
+import lt.boldadmin.nexus.plugin.backendclient.kafka.serializer.CollaboratorCoordinatesSerializer
 import org.apache.kafka.clients.producer.ProducerRecord
 
 class WorklogLocationServiceClient(

@@ -1,4 +1,4 @@
-package lt.boldadmin.nexus.plugin.backendclient.kafka
+package lt.boldadmin.nexus.plugin.backendclient.kafka.factory
 
 import org.apache.kafka.clients.producer.KafkaProducer
 import java.util.*
