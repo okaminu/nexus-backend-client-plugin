@@ -29,6 +29,4 @@ class WorklogDurationServiceClient(private val httpClient: BackendHttpClient): W
 
     override fun sumWorkDurationsByProjectId(projectId: String) =
         httpClient.get("/worklog/project/$projectId/durations-sum", Long::class.java)
-
-
 }
