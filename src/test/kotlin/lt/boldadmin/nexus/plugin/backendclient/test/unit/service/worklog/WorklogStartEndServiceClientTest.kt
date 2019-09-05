@@ -1,10 +1,10 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.WorklogStartEndServiceClient
+import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogStartEndServiceClient
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +23,9 @@ class WorklogStartEndServiceClientTest {
 
     @Before
     fun setUp() {
-        serviceClient = WorklogStartEndServiceClient(httpClientSpy)
+        serviceClient = WorklogStartEndServiceClient(
+            httpClientSpy
+        )
     }
 
     @Test

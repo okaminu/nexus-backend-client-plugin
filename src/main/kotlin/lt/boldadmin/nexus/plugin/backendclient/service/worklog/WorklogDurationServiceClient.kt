@@ -1,9 +1,10 @@
-package lt.boldadmin.nexus.plugin.backendclient.service.worklog.duration
+package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class WorklogDurationServiceClient(private val httpClient: BackendHttpClient): WorklogDurationService {
+class WorklogDurationServiceClient(private val httpClient: BackendHttpClient):
+    WorklogDurationService {
 
     override fun measureDuration(intervalId: String) =
         httpClient.get("/worklog/interval/$intervalId/duration", Long::class.java)

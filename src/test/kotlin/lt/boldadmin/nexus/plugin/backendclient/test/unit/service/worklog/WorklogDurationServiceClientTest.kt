@@ -1,8 +1,8 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.duration
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockito_kotlin.doReturn
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import lt.boldadmin.nexus.plugin.backendclient.service.worklog.duration.WorklogDurationServiceClient
+import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogDurationServiceClient
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
