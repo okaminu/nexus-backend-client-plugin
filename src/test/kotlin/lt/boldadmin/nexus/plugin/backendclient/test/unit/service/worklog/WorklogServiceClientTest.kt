@@ -1,10 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogServiceClient
@@ -14,7 +11,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertSame
-import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class WorklogServiceClientTest {
