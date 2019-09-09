@@ -16,6 +16,7 @@ class BackendHttpClient(
     private val objectMapper: ObjectMapper,
     private val backendAddressProvider: BackendAddressProvider
 ) {
+
     fun <T> get(path: String, clazz: Class<T>) =
         objectMapper.readValue(get(path), clazz) ?: throw CannotConvertJsonException
 
