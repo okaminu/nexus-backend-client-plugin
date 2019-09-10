@@ -2,7 +2,7 @@ apply from: 'aws-credentials.gradle'
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
     repositories {
         maven {
             url 's3://repository.boldadmin.com/snapshots'
@@ -22,6 +22,7 @@ dependencies {
 
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.9"
 
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.5.1"
     testImplementation 'org.mockito:mockito-junit-jupiter:3.0.0'

@@ -3,19 +3,34 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 import com.fasterxml.jackson.core.type.TypeReference
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
+import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
+import java.time.LocalDate
 
 class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogService {
+    override fun getIntervalIdsByCollaboratorId(id: String, dateRange: DateRange): Collection<String> =
+        httpClient.get(
+            formatToUrl("collaborator", id, dateRange.start, dateRange.end),
+            object : TypeReference<Collection<String>>() {}
+        )
+
+    override fun getIntervalIdsByProjectId(id: String, dateRange: DateRange): Collection<String> =
+        httpClient.get(
+            formatToUrl("project", id, dateRange.start, dateRange.end),
+            object : TypeReference<Collection<String>>() {}
+        )
 
     override fun save(worklog: Worklog) = httpClient.postAsJson("/worklog/save", worklog)
 
-    override fun getByCollaboratorId(id: String) =
-        httpClient.get("/worklog/collaborator/$id", object: TypeReference<Collection<Worklog>>(){})
+    override fun getIntervalIdsByCollaboratorId(id: String): Collection<String> =
+        httpClient.get("/worklog/collaborator/$id/interval-ids", object : TypeReference<Collection<String>>() {})
 
-    override fun getByProjectId(id: String) =
-        httpClient.get("/worklog/project/$id", object: TypeReference<Collection<Worklog>>(){})
+    override fun getIntervalIdsByProjectId(id: String): Collection<String> =
+        httpClient.get("/worklog/project/$id/interval-ids", object: TypeReference<Collection<String>>() {})
 
     override fun getIntervalEndpoints(intervalId: String) =
-        httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>(){})
+        httpClient.get("/worklog/interval/$intervalId/endpoints", object: TypeReference<Collection<Worklog>>() {})
 
+    private fun formatToUrl(entityType: String, id: String, start: LocalDate, end: LocalDate) =
+        "/worklog/%s/%s/start/%s/end/%s/interval-ids".format(entityType, id, start.format(), end.format())
 }

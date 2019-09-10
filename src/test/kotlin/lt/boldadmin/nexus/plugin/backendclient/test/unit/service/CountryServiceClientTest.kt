@@ -14,7 +14,8 @@ class CountryServiceClientTest {
     fun `Gets all countries`() {
         val httpClientSpy: BackendHttpClient = mock()
         val expectedCountries = listOf(Country("Narnia"), Country("Middle-Earth"))
-        doReturn(expectedCountries).`when`(httpClientSpy).get(eq("/countries"), any<TypeReference<Collection<Country>>>())
+        doReturn(expectedCountries)
+            .`when`(httpClientSpy).get(eq("/countries"), any<TypeReference<Collection<Country>>>())
 
         val actualCountries = CountryServiceClient(httpClientSpy).countries
 

@@ -112,7 +112,7 @@ class BackendHttpClientTest {
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
         assertThrows(CannotConvertJsonException::class.java) {
-            backendHttpClient.get(PATH, object : TypeReference<Project>() {})
+            backendHttpClient.get(PATH, object: TypeReference<Project>() {})
         }
     }
 
@@ -128,7 +128,7 @@ class BackendHttpClientTest {
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>(){})
+        val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>() {})
 
         assertSame(expectedProject, actualProject)
     }

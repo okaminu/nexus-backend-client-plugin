@@ -3,6 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 import com.fasterxml.jackson.core.type.TypeReference
 import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.type.entity.Worklog
+import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogServiceClient
 import org.junit.jupiter.api.Assertions.assertSame
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.LocalDate
 
 @ExtendWith(MockitoExtension::class)
 class WorklogServiceClientTest {
@@ -26,29 +28,59 @@ class WorklogServiceClientTest {
     }
 
     @Test
-    fun `Gets worklogs by collaborator id`() {
-        val expectedWorklogs = listOf(Worklog(id = "worklog1"), Worklog(id = "worklog2"))
+    fun `Gets interval ids by collaborator id`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
         val collaboratorId = "collaboratorId"
-        doReturn(expectedWorklogs)
+        doReturn(expectedIntervalIds)
             .`when`(httpClientSpy)
-            .get(eq("/worklog/collaborator/$collaboratorId"), any<TypeReference<Collection<Worklog>>>())
+            .get(eq("/worklog/collaborator/$collaboratorId/interval-ids"), any<TypeReference<Collection<String>>>())
 
-        val actualWorklogs = worklogServiceClient.getByCollaboratorId(collaboratorId)
+        val actualIntervalIds = worklogServiceClient.getIntervalIdsByCollaboratorId(collaboratorId)
 
-        assertSame(expectedWorklogs, actualWorklogs)
+        assertSame(expectedIntervalIds, actualIntervalIds)
     }
 
     @Test
-    fun `Gets worklogs by project id`() {
-        val expectedWorklogs = listOf(Worklog(id = "worklog1"), Worklog(id = "worklog2"))
+    fun `Gets interval ids by project id`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
         val projectId = "projectId"
-        doReturn(expectedWorklogs)
+        doReturn(expectedIntervalIds)
             .`when`(httpClientSpy)
-            .get(eq("/worklog/project/$projectId"), any<TypeReference<Collection<Worklog>>>())
+            .get(eq("/worklog/project/$projectId/interval-ids"), any<TypeReference<Collection<String>>>())
 
-        val actualWorklogs = worklogServiceClient.getByProjectId(projectId)
+        val actualWorklogs = worklogServiceClient.getIntervalIdsByProjectId(projectId)
 
-        assertSame(expectedWorklogs, actualWorklogs)
+        assertSame(expectedIntervalIds, actualWorklogs)
+    }
+
+    @Test
+    fun `Gets interval ids by project id and date range`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
+        val projectId = "projectId"
+        val dateRange = DateRange(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
+        doReturn(expectedIntervalIds)
+            .`when`(httpClientSpy)
+            .get(eq("/worklog/project/$projectId/start/2019-05-17/end/2019-05-20/interval-ids"),
+                any<TypeReference<Collection<String>>>())
+
+        val actualWorklogs = worklogServiceClient.getIntervalIdsByProjectId(projectId, dateRange)
+
+        assertSame(expectedIntervalIds, actualWorklogs)
+    }
+
+    @Test
+    fun `Gets interval ids by collaborator id and date range`() {
+        val expectedIntervalIds = listOf("intervalId1", "intervalId2")
+        val collaboratorId = "collaboratorId"
+        val dateRange = DateRange(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
+        doReturn(expectedIntervalIds)
+            .`when`(httpClientSpy)
+            .get(eq("/worklog/collaborator/$collaboratorId/start/2019-05-17/end/2019-05-20/interval-ids"),
+                any<TypeReference<Collection<String>>>())
+
+        val actualWorklogs = worklogServiceClient.getIntervalIdsByCollaboratorId(collaboratorId, dateRange)
+
+        assertSame(expectedIntervalIds, actualWorklogs)
     }
 
     @Test
