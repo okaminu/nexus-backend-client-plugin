@@ -72,7 +72,8 @@ class CollaboratorServiceClientTest {
     fun `Gets collaborator by id`() {
         val expectedCollaborator = Collaborator()
         val collaboratorId = "collaboratorId"
-        doReturn(expectedCollaborator).`when`(httpClientSpy).get("/collaborator/$collaboratorId", Collaborator::class.java)
+        doReturn(expectedCollaborator)
+            .`when`(httpClientSpy).get("/collaborator/$collaboratorId", Collaborator::class.java)
 
         val actualCollaborator = serviceClient.getById(collaboratorId)
 
