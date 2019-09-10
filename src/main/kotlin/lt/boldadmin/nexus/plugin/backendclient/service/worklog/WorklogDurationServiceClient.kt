@@ -1,9 +1,8 @@
 package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import lt.boldadmin.nexus.plugin.backendclient.service.worklog.format
 
 class WorklogDurationServiceClient(private val httpClient: BackendHttpClient):
     WorklogDurationService {
