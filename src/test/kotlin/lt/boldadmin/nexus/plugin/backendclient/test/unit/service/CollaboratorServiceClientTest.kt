@@ -1,19 +1,19 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.CollaboratorServiceClient
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
-import kotlin.test.assertSame
-import kotlin.test.assertTrue
+import org.mockito.junit.jupiter.MockitoExtension
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CollaboratorServiceClientTest {
 
     @Mock
@@ -21,7 +21,7 @@ class CollaboratorServiceClientTest {
 
     private lateinit var serviceClient: CollaboratorServiceClient
 
-    @Before
+    @BeforeEach
     fun setUp() {
         serviceClient = CollaboratorServiceClient(httpClientSpy)
     }
