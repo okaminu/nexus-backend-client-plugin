@@ -32,9 +32,6 @@ class WorklogStartEndServiceClient(private val httpClient: BackendHttpClient): W
     override fun end(collaborator: Collaborator, timestamp: Long) =
         httpClient.postAsJson("/worklog/status/end/timestamp/$timestamp", collaborator)
 
-    override fun endAllStartedWorkWhereWorkTimeEnded() =
-        httpClient.postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
-
     override fun hasWorkEnded(collaboratorId: String) =
         httpClient.get("/worklog/collaborator/$collaboratorId/status/has-work-ended", Boolean::class.java)
 }

@@ -83,14 +83,6 @@ class WorklogStartEndServiceClientTest {
     }
 
     @Test
-    fun `Ends all started work on collaborators whose work time has ended`() {
-        serviceClient.endAllStartedWorkWhereWorkTimeEnded()
-
-        verify(httpClientSpy)
-            .postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
-    }
-
-    @Test
     fun `Work has started for collaborator`() {
         val collaboratorId = "collaboratorId"
         doReturn(true)
