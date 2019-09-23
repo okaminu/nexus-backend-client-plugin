@@ -2,8 +2,8 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import lt.boldadmin.nexus.api.service.UserService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.User
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class UserServiceClient(private val httpClient: BackendHttpClient): UserService {
