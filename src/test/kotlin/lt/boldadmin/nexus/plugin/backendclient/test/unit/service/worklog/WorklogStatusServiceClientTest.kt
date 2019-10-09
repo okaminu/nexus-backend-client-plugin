@@ -23,9 +23,7 @@ class WorklogStatusServiceClientTest {
 
     @BeforeEach
     fun setUp() {
-        serviceClient = WorklogStatusServiceClient(
-            httpClientSpy
-        )
+        serviceClient = WorklogStatusServiceClient(httpClientSpy)
     }
 
     @Test

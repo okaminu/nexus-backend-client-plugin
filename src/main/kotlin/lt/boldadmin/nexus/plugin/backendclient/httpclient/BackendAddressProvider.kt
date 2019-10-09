@@ -2,7 +2,6 @@ package lt.boldadmin.nexus.plugin.backendclient.httpclient
 
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.exception.BackendAddressNotSetException
 
-
 object BackendAddressProvider {
     val protocol get() = System.getenv("NEXUS_BACKEND_PROTOCOL") ?: throw BackendAddressNotSetException
 

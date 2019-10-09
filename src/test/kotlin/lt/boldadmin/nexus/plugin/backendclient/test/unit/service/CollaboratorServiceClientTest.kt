@@ -23,9 +23,7 @@ class CollaboratorServiceClientTest {
 
     @BeforeEach
     fun setUp() {
-        serviceClient = CollaboratorServiceClient(
-            httpClientSpy
-        )
+        serviceClient = CollaboratorServiceClient(httpClientSpy)
     }
 
     @Test

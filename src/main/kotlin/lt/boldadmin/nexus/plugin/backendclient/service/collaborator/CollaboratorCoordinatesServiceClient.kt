@@ -5,9 +5,7 @@ import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesServic
 import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-class CollaboratorCoordinatesServiceClient(
-    private val httpClient: BackendHttpClient
-): CollaboratorCoordinatesService {
+class CollaboratorCoordinatesServiceClient(private val httpClient: BackendHttpClient): CollaboratorCoordinatesService {
 
     override fun getByCollaboratorId(id: String): Collection<CollaboratorCoordinates> =
         httpClient.get(
