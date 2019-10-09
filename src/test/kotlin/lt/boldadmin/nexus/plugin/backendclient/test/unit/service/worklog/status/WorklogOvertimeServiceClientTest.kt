@@ -24,10 +24,10 @@ class WorklogOvertimeServiceClientTest {
 
     @Test
     fun `Ends all started work on collaborators whose work time has ended`() {
-        serviceClient.endAllStartedWorkWhereWorkTimeEnded()
+        serviceClient.endOnOvertime()
 
         verify(httpClientSpy)
-            .postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
+            .postWithoutBody("/worklog/overtime/end/on-overtime")
     }
 
 }
