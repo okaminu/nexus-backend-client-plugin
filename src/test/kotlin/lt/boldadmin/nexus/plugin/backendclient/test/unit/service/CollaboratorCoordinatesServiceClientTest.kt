@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import lt.boldadmin.nexus.api.type.entity.collaborator.CollaboratorCoordinates
+import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.collaborator.CollaboratorCoordinatesServiceClient
@@ -28,7 +28,13 @@ class CollaboratorCoordinatesServiceClientTest {
 
     @Test
     fun `Gets all countries`() {
-        val expectedCoordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
+        val expectedCoordinates = listOf(
+            CollaboratorCoordinates(
+                "collabId",
+                Coordinates(1.2, 3.4),
+                123
+            )
+        )
         every {
             httpClientSpy.get(
                 "/collaborator/collabId/coordinates",
