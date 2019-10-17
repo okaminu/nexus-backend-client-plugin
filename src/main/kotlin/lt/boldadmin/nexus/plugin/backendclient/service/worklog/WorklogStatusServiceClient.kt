@@ -4,7 +4,6 @@ import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
-
 class WorklogStatusServiceClient(private val httpClient: BackendHttpClient): WorklogStatusService {
 
     override fun getProjectOfStartedWork(collaboratorId: String) =

@@ -10,6 +10,6 @@ class CollaboratorCoordinatesServiceClient(private val httpClient: BackendHttpCl
     override fun getByCollaboratorId(id: String): Collection<CollaboratorCoordinates> =
         httpClient.get(
             "/collaborator/$id/coordinates",
-            object : TypeReference<Collection<CollaboratorCoordinates>>() {}
+            object: TypeReference<Collection<CollaboratorCoordinates>>() {}
         )
 }
