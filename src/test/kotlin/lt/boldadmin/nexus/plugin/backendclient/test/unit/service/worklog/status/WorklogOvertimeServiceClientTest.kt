@@ -27,7 +27,7 @@ class WorklogOvertimeServiceClientTest {
         serviceClient.endOnOvertime()
 
         verify(httpClientSpy)
-            .postWithoutBody("/worklog/overtime/end/work-in-progress")
+            .postWithoutBody("/worklog/overtime/end")
     }
 
 }
