@@ -1,7 +1,6 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogStatusServiceClient
@@ -37,14 +36,6 @@ class WorklogStatusServiceClientTest {
         val actualProject = serviceClient.getProjectOfStartedWork(collaboratorId)
 
         assertSame(expectedProject, actualProject)
-    }
-
-    @Test
-    fun `Ends all started work on collaborators whose work time has ended`() {
-        serviceClient.endAllStartedWorkWhereWorkTimeEnded()
-
-        verify(httpClientSpy)
-            .postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
     }
 
     @Test

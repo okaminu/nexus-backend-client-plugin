@@ -1,6 +1,6 @@
-package lt.boldadmin.nexus.plugin.backendclient.service.worklog.status
+package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogOvertimeService
+import lt.boldadmin.nexus.api.service.worklog.WorklogOvertimeService
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 

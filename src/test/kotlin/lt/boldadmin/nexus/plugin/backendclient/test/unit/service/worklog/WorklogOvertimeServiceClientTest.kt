@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status
 
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import lt.boldadmin.nexus.plugin.backendclient.service.worklog.status.WorklogOvertimeServiceClient
+import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogOvertimeServiceClient
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,7 +19,9 @@ class WorklogOvertimeServiceClientTest {
 
     @BeforeEach
     fun setUp() {
-        serviceClient = WorklogOvertimeServiceClient(httpClientSpy)
+        serviceClient = WorklogOvertimeServiceClient(
+            httpClientSpy
+        )
     }
 
     @Test

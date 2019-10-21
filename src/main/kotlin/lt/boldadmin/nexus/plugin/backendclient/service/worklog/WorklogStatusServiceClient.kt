@@ -17,7 +17,4 @@ class WorklogStatusServiceClient(private val httpClient: BackendHttpClient): Wor
             "/worklog/collaborator/$collaboratorId/project/$projectId/status/has-work-started",
             Boolean::class.java
         )
-
-    override fun endAllStartedWorkWhereWorkTimeEnded() =
-        httpClient.postWithoutBody("/worklog/status/end/all-started-work-on-ended-work-time")
 }
