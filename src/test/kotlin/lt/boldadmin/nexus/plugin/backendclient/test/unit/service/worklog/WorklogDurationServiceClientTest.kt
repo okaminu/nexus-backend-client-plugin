@@ -1,9 +1,9 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.duration
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
-import lt.boldadmin.nexus.plugin.backendclient.service.worklog.duration.WorklogDurationServiceClient
+import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogDurationServiceClient
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
