@@ -116,7 +116,6 @@ class BackendHttpClientTest {
         }
     }
 
-
     @Test
     fun `Gets response as instance of class from type reference`() {
         val projectAsJson = "projectAsJson"
