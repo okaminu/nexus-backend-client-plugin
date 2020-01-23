@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.collaborator.CollaboratorServiceClient
 import org.junit.jupiter.api.Assertions.assertSame

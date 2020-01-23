@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.service.collaborator
 
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class CollaboratorServiceClient(private val httpClient: BackendHttpClient): CollaboratorService {
