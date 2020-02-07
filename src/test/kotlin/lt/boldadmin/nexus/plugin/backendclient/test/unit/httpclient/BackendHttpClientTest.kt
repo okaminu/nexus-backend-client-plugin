@@ -3,6 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.httpclient
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.*
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendAddressProvider
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
@@ -17,6 +18,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import java.net.URI
 import java.net.http.HttpClient
+import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpRequest.newBuilder
 import java.net.http.HttpResponse
@@ -103,11 +105,7 @@ class BackendHttpClientTest {
 
     @Test
     fun `Gets cannot convert json exception on Type reference`() {
-        val projectAsJson = "projectAsJson"
-        doReturn(null)
-            .`when`(objectMapperStub)
-            .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
-        doReturn(projectAsJson).`when`(httpResponseStub).body()
+        stubTypeAsResponse(null)
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
@@ -116,15 +114,10 @@ class BackendHttpClientTest {
         }
     }
 
-
     @Test
     fun `Gets response as instance of class from type reference`() {
-        val projectAsJson = "projectAsJson"
         val expectedProject = Project()
-        doReturn(expectedProject)
-            .`when`(objectMapperStub)
-            .readValue<Project>(eq(projectAsJson), any<TypeReference<Project>>())
-        doReturn(projectAsJson).`when`(httpResponseStub).body()
+        stubTypeAsResponse(expectedProject)
         val request = newBuilder().uri(createUri()).GET().build()
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
@@ -135,7 +128,7 @@ class BackendHttpClientTest {
 
     @Test
     fun `Posts without body`() {
-        backendHttpClient.postWithoutBody(PATH)
+        backendHttpClient.post(PATH)
 
         val request = newBuilder().uri(createUri())
             .POST(BodyPublishers.noBody())
@@ -170,16 +163,25 @@ class BackendHttpClientTest {
     @Test
     fun `Posts value as class instance with json header`() {
         val project = Project()
-        val projectAsJson = "projectAsJson"
-        doReturn(projectAsJson).`when`(objectMapperStub).writeValueAsString(project)
+        val request = stubTypeAsRequest(project)
 
-        backendHttpClient.postAsJson(PATH, project)
+        backendHttpClient.postJson(PATH, project)
 
-        val request = newBuilder().uri(createUri())
-            .headers("Content-Type", "application/json")
-            .POST(BodyPublishers.ofString(projectAsJson))
-            .build()
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
+    }
+
+    @Test
+    fun `Retrieves response after sending request with Post`() {
+        val project = Project()
+        val expectedCollaborator = Collaborator()
+        stubTypeAsResponse(expectedCollaborator)
+        val request = stubTypeAsRequest(project)
+        doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
+
+        val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>(){})
+
+        assertSame(expectedCollaborator, actualCollaborator)
+
     }
 
     @Test
@@ -192,15 +194,22 @@ class BackendHttpClientTest {
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
     }
 
-    private fun createUri() = URI(
-        BACKEND_PROTOCOL,
-        null,
-        BACKEND_BASE_URL,
-        BACKEND_PORT,
-        PATH,
-        null,
-        null
-    )
+    private fun <T>stubTypeAsRequest(value: T): HttpRequest {
+        doReturn("typeJson").`when`(objectMapperStub).writeValueAsString(value)
+        return newBuilder().uri(createUri())
+            .headers("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString("typeJson"))
+            .build()
+    }
+
+    private fun <T>stubTypeAsResponse(value: T?) {
+        doReturn(value)
+            .`when`(objectMapperStub)
+            .readValue<T>(eq("typeJson"), any<TypeReference<T>>())
+        doReturn("typeJson").`when`(httpResponseStub).body()
+    }
+
+    private fun createUri() = URI(BACKEND_PROTOCOL, null, BACKEND_BASE_URL, BACKEND_PORT, PATH, null, null)
 
     companion object {
         private val BACKEND_PROTOCOL = "http"

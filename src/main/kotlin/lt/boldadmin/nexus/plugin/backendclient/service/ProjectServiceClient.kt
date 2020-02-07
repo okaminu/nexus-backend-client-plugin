@@ -19,6 +19,5 @@ class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectSe
         httpClient.post("/project/$projectId/attribute/order-number/update", orderNumber)
 
     override fun updateLocation(projectId: String, location: Location) =
-        httpClient.postAsJson("/project/$projectId/attribute/location/update", location)
-
+        httpClient.postJson("/project/$projectId/attribute/location/update", location)
 }

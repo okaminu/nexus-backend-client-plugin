@@ -9,8 +9,10 @@ import java.util.*
 
 class WorkWeekValidatorClient(private val httpClient: BackendHttpClient): WorkWeekValidatorService {
 
-    override fun getConstraintViolations(workWeek: SortedSet<Day>) =
-        httpClient.get("work-week/get-constraint-violations", object: TypeReference<Set<WeekConstraintViolation>>() {})
-//        httpClient.get("work-week/get-constraint-violations", workWeek)
-
+    override fun validate(workWeek: SortedSet<Day>) =
+        httpClient.postJson(
+            "/collaborator/work-week/validate",
+            workWeek,
+            object: TypeReference<Set<WeekConstraintViolation>>() {}
+        )
 }

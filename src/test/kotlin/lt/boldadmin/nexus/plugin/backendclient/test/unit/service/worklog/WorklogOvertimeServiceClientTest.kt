@@ -1,4 +1,4 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
@@ -29,7 +29,7 @@ class WorklogOvertimeServiceClientTest {
         serviceClient.endOnOvertime()
 
         verify(httpClientSpy)
-            .postWithoutBody("/worklog/overtime/end")
+            .post("/worklog/overtime/end")
     }
 
 }

@@ -55,7 +55,7 @@ class ProjectServiceClientTest {
 
         projectServiceClient.updateLocation(projectId, location)
 
-        verify(httpClientSpy).postAsJson("/project/$projectId/attribute/location/update", location)
+        verify(httpClientSpy).postJson("/project/$projectId/attribute/location/update", location)
     }
 
     @Test

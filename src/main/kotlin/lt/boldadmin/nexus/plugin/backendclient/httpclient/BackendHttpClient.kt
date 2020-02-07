@@ -9,7 +9,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpRequest.newBuilder
-import java.net.http.HttpResponse
+import java.net.http.HttpResponse.BodyHandlers
 
 class BackendHttpClient(
     private val httpClient: HttpClient,
@@ -24,21 +24,17 @@ class BackendHttpClient(
         objectMapper.readValue(get(path), typeReference) ?: throw CannotConvertJsonException
 
     fun get(path: String) =
-        get(
-            createRequestBuilder(path)
-                .GET()
-                .build()
-        ).body() ?: throw NoBodyException
+        get(createRequestBuilder(path).GET().build()).body() ?: throw NoBodyException
 
     fun <T> post(path: String, valueType: T) = post(path, objectMapper.writeValueAsString(valueType))
 
-    fun <T> postAsJson(path: String, valueType: T) {
-        post(
-            createRequestBuilder(path)
-                .headers("Content-Type", "application/json")
-                .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(valueType)))
-                .build()
-        )
+    fun <I, O> postJson(path: String, bodyType: I, responseTypeRef: TypeReference<O>): O {
+        val httpResponse = postWithResponse(createPostJsonRequest(path, bodyType))
+        return objectMapper.readValue(httpResponse.body(), responseTypeRef)
+    }
+
+    fun <T> postJson(path: String, valueType: T) {
+        post(createPostJsonRequest(path, valueType))
     }
 
     fun post(path: String, value: String) {
@@ -49,7 +45,7 @@ class BackendHttpClient(
         )
     }
 
-    fun postWithoutBody(path: String) {
+    fun post(path: String) {
         post(
             createRequestBuilder(path)
                 .POST(BodyPublishers.noBody())
@@ -65,6 +61,12 @@ class BackendHttpClient(
         )
     }
 
+    private fun <T> createPostJsonRequest(path: String, valueType: T) =
+        createRequestBuilder(path)
+            .headers("Content-Type", "application/json")
+            .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(valueType)))
+            .build()
+
     private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
 
     private fun createUri(path: String) = URI(
@@ -77,9 +79,11 @@ class BackendHttpClient(
         null
     )
 
-    private fun get(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+    private fun get(request: HttpRequest) = httpClient.send(request, BodyHandlers.ofString())
 
-    private fun post(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
+    private fun post(request: HttpRequest) { httpClient.send(request, BodyHandlers.discarding()) }
 
-    private fun delete(request: HttpRequest) = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
+    private fun postWithResponse(request: HttpRequest) = httpClient.send(request, BodyHandlers.ofString())
+
+    private fun delete(request: HttpRequest) { httpClient.send(request, BodyHandlers.discarding()) }
 }

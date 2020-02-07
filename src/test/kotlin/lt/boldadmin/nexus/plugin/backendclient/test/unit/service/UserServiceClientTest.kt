@@ -2,8 +2,8 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.nhaarman.mockitokotlin2.*
-import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.UserServiceClient
 import org.junit.jupiter.api.Assertions.assertSame
@@ -33,7 +33,7 @@ class UserServiceClientTest {
 
         userServiceClient.save(user)
 
-        verify(httpClientSpy).postAsJson("/user/save", user)
+        verify(httpClientSpy).postJson("/user/save", user)
     }
 
     @Test
