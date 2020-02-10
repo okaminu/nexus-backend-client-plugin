@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.time.DayOfWeek
 
 @ExtendWith(MockKExtension::class)
 class WorkWeekValidatorClientTest {
@@ -28,7 +29,7 @@ class WorkWeekValidatorClientTest {
 
     @Test
     fun `Validates work week`() {
-        val expectedViolations = setOf(WeekConstraintViolation())
+        val expectedViolations = setOf(WeekConstraintViolation("message", DayOfWeek.SATURDAY))
         val workWeek = sortedSetOf(Day())
         every {
             httpClientStub.postJson("/collaborator/work-week/validate",

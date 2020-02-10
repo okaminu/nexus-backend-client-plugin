@@ -178,7 +178,7 @@ class BackendHttpClientTest {
         val request = stubTypeAsRequest(project)
         doReturn(httpResponseStub).`when`(httpClientSpy).send(request, HttpResponse.BodyHandlers.ofString())
 
-        val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>(){})
+        val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>() {})
 
         assertSame(expectedCollaborator, actualCollaborator)
 
@@ -194,7 +194,7 @@ class BackendHttpClientTest {
         verify(httpClientSpy).send(request, HttpResponse.BodyHandlers.discarding())
     }
 
-    private fun <T>stubTypeAsRequest(value: T): HttpRequest {
+    private fun <T> stubTypeAsRequest(value: T): HttpRequest {
         doReturn("typeJson").`when`(objectMapperStub).writeValueAsString(value)
         return newBuilder().uri(createUri())
             .headers("Content-Type", "application/json")
@@ -202,7 +202,7 @@ class BackendHttpClientTest {
             .build()
     }
 
-    private fun <T>stubTypeAsResponse(value: T?) {
+    private fun <T> stubTypeAsResponse(value: T?) {
         doReturn(value)
             .`when`(objectMapperStub)
             .readValue<T>(eq("typeJson"), any<TypeReference<T>>())
