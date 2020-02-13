@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service.collaborator
 
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Day
+import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import java.util.*
 
@@ -25,7 +25,7 @@ class CollaboratorServiceClient(private val httpClient: BackendHttpClient): Coll
     override fun update(id: String, attributeName: String, attributeValue: String) =
         httpClient.post("/collaborator/$id/attribute/$attributeName/update", attributeValue)
 
-    override fun update(id: String, workWeek: SortedSet<Day>) {
+    override fun update(id: String, workWeek: SortedSet<DayMinuteInterval>) {
         httpClient.postJson("/collaborator/$id/work-week/update", workWeek)
     }
 

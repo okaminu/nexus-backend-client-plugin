@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import lt.boldadmin.nexus.api.type.valueobject.Day
+import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
 import lt.boldadmin.nexus.api.type.valueobject.WeekConstraintViolation
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.collaborator.WorkWeekValidatorClient
@@ -30,7 +30,7 @@ class WorkWeekValidatorClientTest {
     @Test
     fun `Validates work week`() {
         val expectedViolations = setOf(WeekConstraintViolation("message", DayOfWeek.SATURDAY))
-        val workWeek = sortedSetOf(Day())
+        val workWeek = sortedSetOf(DayMinuteInterval())
         every {
             httpClientStub.postJson("/collaborator/work-week/validate",
                 workWeek,

@@ -3,8 +3,8 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Day
-import lt.boldadmin.nexus.api.type.valueobject.MinuteRange
+import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.MinuteInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.collaborator.CollaboratorServiceClient
 import org.junit.jupiter.api.Assertions.assertSame
@@ -52,7 +52,7 @@ class CollaboratorServiceClientTest {
     @Test
     fun `Updates work week`() {
         val collaboratorId = "uniqueCollaboratorId"
-        val workWeek = sortedSetOf(Day(MinuteRange(100, 200), false, TUESDAY))
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(100, 200), false))
 
         serviceClient.update(collaboratorId, workWeek)
 
