@@ -3,7 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 import com.fasterxml.jackson.core.type.TypeReference
 import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.type.entity.Worklog
-import lt.boldadmin.nexus.api.type.valueobject.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogServiceClient
 import org.junit.jupiter.api.Assertions.assertSame

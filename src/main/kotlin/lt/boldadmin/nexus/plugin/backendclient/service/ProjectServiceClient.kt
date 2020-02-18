@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service
 
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.location.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 
 class ProjectServiceClient(private val httpClient: BackendHttpClient): ProjectService {

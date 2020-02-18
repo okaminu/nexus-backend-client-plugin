@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service.collaborator
 
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import java.util.*
 

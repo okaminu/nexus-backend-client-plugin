@@ -3,7 +3,7 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 import com.fasterxml.jackson.core.type.TypeReference
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
-import lt.boldadmin.nexus.api.type.valueobject.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import java.time.LocalDate
 
