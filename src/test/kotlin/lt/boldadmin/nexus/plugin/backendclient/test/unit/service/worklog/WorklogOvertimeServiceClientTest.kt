@@ -25,7 +25,7 @@ class WorklogOvertimeServiceClientTest {
     }
 
     @Test
-    fun `Ends all started work on collaborators whose work time has ended`() {
+    fun `Ends all started work on collaborators whose work day has ended`() {
         serviceClient.endOnOvertime()
 
         verify(httpClientSpy)
