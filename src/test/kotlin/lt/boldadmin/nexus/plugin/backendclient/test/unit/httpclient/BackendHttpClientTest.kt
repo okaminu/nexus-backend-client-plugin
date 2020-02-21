@@ -97,7 +97,7 @@ class BackendHttpClientTest {
     @Test
     fun `Gets cannot convert json exception`() {
         val projectAsJson = "projectAsJson"
-        every {  objectMapperStub.readValue(projectAsJson, Project::class.java) } returns null
+        every { objectMapperStub.readValue(projectAsJson, Project::class.java) } returns null
         every { httpResponseStub.body() } returns projectAsJson
         val request = newBuilder().uri(createUri()).GET().build()
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
@@ -191,7 +191,6 @@ class BackendHttpClientTest {
         val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>() {})
 
         assertSame(expectedCollaborator, actualCollaborator)
-
     }
 
     @Test
