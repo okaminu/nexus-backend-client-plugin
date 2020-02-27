@@ -109,7 +109,7 @@ class BackendHttpClientTest {
 
     @Test
     fun `Gets cannot convert json exception on Type reference`() {
-        stubTypeAsResponse(null)
+        stubResponse(null)
         val request = newBuilder().uri(createUri()).GET().build()
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
@@ -121,7 +121,7 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as instance of class from type reference`() {
         val expectedProject = Project()
-        stubTypeAsResponse(expectedProject)
+        stubResponse(expectedProject)
         val request = newBuilder().uri(createUri()).GET().build()
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
@@ -172,7 +172,7 @@ class BackendHttpClientTest {
     @Test
     fun `Posts value as class instance with json header`() {
         val project = Project()
-        val request = stubTypeAsRequest(project)
+        val request = stubRequest(project)
         every { httpClientSpy.send(request, discarding()) } returns mockk()
 
         backendHttpClient.postJson(PATH, project)
@@ -184,8 +184,8 @@ class BackendHttpClientTest {
     fun `Retrieves response after sending request with Post`() {
         val project = Project()
         val expectedCollaborator = Collaborator()
-        stubTypeAsResponse(expectedCollaborator)
-        val request = stubTypeAsRequest(project)
+        stubResponse(expectedCollaborator)
+        val request = stubRequest(project)
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>() {})
@@ -205,17 +205,17 @@ class BackendHttpClientTest {
         verify { httpClientSpy.send(request, discarding()) }
     }
 
-    private fun <T> stubTypeAsRequest(value: T): HttpRequest {
-        every { objectMapperStub.writeValueAsString(value) } returns "typeJson"
+    private fun <T> stubRequest(value: T): HttpRequest {
+        every { objectMapperStub.writeValueAsString(value) } returns "someJson"
         return newBuilder().uri(createUri())
             .headers("Content-Type", "application/json")
-            .POST(BodyPublishers.ofString("typeJson"))
+            .POST(BodyPublishers.ofString("someJson"))
             .build()
     }
 
-    private fun <T> stubTypeAsResponse(value: T?) {
-        every { objectMapperStub.readValue<T>(eq("typeJson"), any<TypeReference<T>>()) } returns value
-        every { httpResponseStub.body() } returns "typeJson"
+    private fun <T> stubResponse(value: T?) {
+        every { objectMapperStub.readValue<T>(eq("someJson"), any<TypeReference<T>>()) } returns value
+        every { httpResponseStub.body() } returns "someJson"
     }
 
     private fun createUri() = URI(BACKEND_PROTOCOL, null, BACKEND_BASE_URL, BACKEND_PORT, PATH, null, null)

@@ -20,23 +20,23 @@ class BackendHttpClient(
     fun <T> get(path: String, clazz: Class<T>) =
         objectMapper.readValue(get(path), clazz) ?: throw CannotConvertJsonException
 
-    fun <T> get(path: String, typeReference: TypeReference<T>): T =
-        objectMapper.readValue(get(path), typeReference) ?: throw CannotConvertJsonException
+    fun <T> get(path: String, responseType: TypeReference<T>): T =
+        objectMapper.readValue(get(path), responseType) ?: throw CannotConvertJsonException
 
     fun get(path: String) =
         get(createRequestBuilder(path).GET().build()).body() ?: throw NoBodyException
 
-    fun <T> post(path: String, valueType: T) {
-        post(path, objectMapper.writeValueAsString(valueType))
+    fun <T> post(path: String, value: T) {
+        post(path, objectMapper.writeValueAsString(value))
     }
 
-    fun <I, O> postJson(path: String, bodyType: I, responseTypeRef: TypeReference<O>): O {
-        val httpResponse = postWithResponse(createPostJsonRequest(path, bodyType))
-        return objectMapper.readValue(httpResponse.body(), responseTypeRef)
+    fun <I, O> postJson(path: String, value: I, responseType: TypeReference<O>): O {
+        val httpResponse = postWithResponse(createPostJsonRequest(path, value))
+        return objectMapper.readValue(httpResponse.body(), responseType)
     }
 
-    fun <T> postJson(path: String, valueType: T) {
-        post(createPostJsonRequest(path, valueType))
+    fun <T> postJson(path: String, value: T) {
+        post(createPostJsonRequest(path, value))
     }
 
     fun post(path: String, value: String) {
@@ -63,10 +63,10 @@ class BackendHttpClient(
         )
     }
 
-    private fun <T> createPostJsonRequest(path: String, valueType: T) =
+    private fun <T> createPostJsonRequest(path: String, value: T) =
         createRequestBuilder(path)
             .headers("Content-Type", "application/json")
-            .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(valueType)))
+            .POST(BodyPublishers.ofString(objectMapper.writeValueAsString(value)))
             .build()
 
     private fun createRequestBuilder(path: String) = newBuilder().uri(createUri(path))
