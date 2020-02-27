@@ -26,7 +26,9 @@ class BackendHttpClient(
     fun get(path: String) =
         get(createRequestBuilder(path).GET().build()).body() ?: throw NoBodyException
 
-    fun <T> post(path: String, valueType: T) = post(path, objectMapper.writeValueAsString(valueType))
+    fun <T> post(path: String, valueType: T) {
+        post(path, objectMapper.writeValueAsString(valueType))
+    }
 
     fun <I, O> postJson(path: String, bodyType: I, responseTypeRef: TypeReference<O>): O {
         val httpResponse = postWithResponse(createPostJsonRequest(path, bodyType))

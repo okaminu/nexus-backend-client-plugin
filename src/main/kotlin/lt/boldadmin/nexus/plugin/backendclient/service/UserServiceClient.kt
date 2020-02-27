@@ -10,7 +10,9 @@ class UserServiceClient(private val httpClient: BackendHttpClient): UserService 
 
     override fun existsAny() = httpClient.get("/user/exists-any", Boolean::class.java)
 
-    override fun save(user: User) = httpClient.postJson("/user/save", user)
+    override fun save(user: User) {
+        httpClient.postJson("/user/save", user)
+    }
 
     override fun createWithDefaults() = httpClient.get("/user/create-with-defaults", User::class.java)
 
