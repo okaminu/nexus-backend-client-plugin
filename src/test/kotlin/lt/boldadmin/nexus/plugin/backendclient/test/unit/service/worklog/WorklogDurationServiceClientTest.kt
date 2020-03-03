@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
-import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.worklog.WorklogDurationServiceClient
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -65,10 +65,10 @@ class WorklogDurationServiceClientTest {
     }
 
     @Test
-    fun `Calculates sum of durations by project and date range filter`() {
+    fun `Calculates sum of durations by project and date interval filter`() {
         val expectedDurationsSum = 123L
         val projectId = "projectId"
-        val dateRange = DateRange(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
+        val dateInterval = DateInterval(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
         doReturn(expectedDurationsSum)
             .`when`(httpClientStub)
             .get(
@@ -76,16 +76,16 @@ class WorklogDurationServiceClientTest {
                 Long::class.java
             )
 
-        val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId(projectId, dateRange)
+        val actualDurationsSum = serviceClient.sumWorkDurationsByProjectId(projectId, dateInterval)
 
         assertSame(expectedDurationsSum, actualDurationsSum)
     }
 
     @Test
-    fun `Calculates sum of durations by collaborator and date range filter`() {
+    fun `Calculates sum of durations by collaborator and date interval filter`() {
         val expectedDurationsSum = 123L
         val collaboratorId = "collaboratorId"
-        val dateRange = DateRange(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
+        val dateInterval = DateInterval(LocalDate.of(2019, 5, 17), LocalDate.of(2019, 5, 20))
         doReturn(expectedDurationsSum)
             .`when`(httpClientStub)
             .get(
@@ -93,7 +93,7 @@ class WorklogDurationServiceClientTest {
                 Long::class.java
             )
 
-        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId(collaboratorId, dateRange)
+        val actualDurationsSum = serviceClient.sumWorkDurationsByCollaboratorId(collaboratorId, dateInterval)
 
         assertSame(expectedDurationsSum, actualDurationsSum)
     }

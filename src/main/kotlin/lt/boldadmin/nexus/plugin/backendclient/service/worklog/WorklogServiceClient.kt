@@ -3,20 +3,20 @@ package lt.boldadmin.nexus.plugin.backendclient.service.worklog
 import com.fasterxml.jackson.core.type.TypeReference
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
-import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import java.time.LocalDate
 
 class WorklogServiceClient(private val httpClient: BackendHttpClient): WorklogService {
-    override fun getIntervalIdsByCollaboratorId(id: String, dateRange: DateRange): Collection<String> =
+    override fun getIntervalIdsByCollaboratorId(id: String, dateInterval: DateInterval): Collection<String> =
         httpClient.get(
-            formatToUrl("collaborator", id, dateRange.start, dateRange.end),
+            formatToUrl("collaborator", id, dateInterval.start, dateInterval.end),
             object : TypeReference<Collection<String>>() {}
         )
 
-    override fun getIntervalIdsByProjectId(id: String, dateRange: DateRange): Collection<String> =
+    override fun getIntervalIdsByProjectId(id: String, dateInterval: DateInterval): Collection<String> =
         httpClient.get(
-            formatToUrl("project", id, dateRange.start, dateRange.end),
+            formatToUrl("project", id, dateInterval.start, dateInterval.end),
             object : TypeReference<Collection<String>>() {}
         )
 
