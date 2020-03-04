@@ -1,4 +1,4 @@
-package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog.status
+package lt.boldadmin.nexus.plugin.backendclient.test.unit.service.worklog
 
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
@@ -25,11 +25,11 @@ class WorklogOvertimeServiceClientTest {
     }
 
     @Test
-    fun `Ends all started work on collaborators whose work time has ended`() {
+    fun `Ends all started work on collaborators whose work day has ended`() {
         serviceClient.endOnOvertime()
 
         verify(httpClientSpy)
-            .postWithoutBody("/worklog/overtime/end")
+            .post("/worklog/overtime/end")
     }
 
 }

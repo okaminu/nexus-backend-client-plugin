@@ -2,7 +2,9 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.collaborator.CollaboratorServiceClient
 import org.junit.jupiter.api.Assertions.assertSame
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.DayOfWeek.TUESDAY
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorServiceClientTest {
@@ -44,6 +47,16 @@ class CollaboratorServiceClientTest {
         serviceClient.update(collaboratorId, attributeName, attributeValue)
 
         verify(httpClientSpy).post("/collaborator/$collaboratorId/attribute/$attributeName/update", attributeValue)
+    }
+
+    @Test
+    fun `Updates work week`() {
+        val collaboratorId = "uniqueCollaboratorId"
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(100, 200), false))
+
+        serviceClient.update(collaboratorId, workWeek)
+
+        verify(httpClientSpy).postJson("/collaborator/$collaboratorId/work-week/update", workWeek)
     }
 
     @Test
