@@ -70,8 +70,8 @@ class BackendHttpClientTest {
 
     @Test
     fun `Gets no body exception`() {
-        every { httpResponseStub.body() } returns null
         val request = newBuilder().uri(createUri()).GET().build()
+        every { httpResponseStub.body() } returns null
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         assertThrows(NoBodyException::class.java) {
@@ -83,10 +83,9 @@ class BackendHttpClientTest {
     fun `Gets response as instance of class`() {
         val projectAsJson = "projectAsJson"
         val expectedProject = Project()
-
+        val request = newBuilder().uri(createUri()).GET().build()
         every { objectMapperStub.readValue(projectAsJson, Project::class.java) } returns expectedProject
         every { httpResponseStub.body() } returns projectAsJson
-        val request = newBuilder().uri(createUri()).GET().build()
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         val actualProject = backendHttpClient.get(PATH, Project::class.java)
@@ -97,9 +96,9 @@ class BackendHttpClientTest {
     @Test
     fun `Gets cannot convert json exception`() {
         val projectAsJson = "projectAsJson"
+        val request = newBuilder().uri(createUri()).GET().build()
         every { objectMapperStub.readValue(projectAsJson, Project::class.java) } returns null
         every { httpResponseStub.body() } returns projectAsJson
-        val request = newBuilder().uri(createUri()).GET().build()
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         assertThrows(CannotConvertJsonException::class.java) {
@@ -109,8 +108,8 @@ class BackendHttpClientTest {
 
     @Test
     fun `Gets cannot convert json exception on Type reference`() {
-        stubResponse(null)
         val request = newBuilder().uri(createUri()).GET().build()
+        stubResponse(null)
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         assertThrows(CannotConvertJsonException::class.java) {
@@ -121,8 +120,8 @@ class BackendHttpClientTest {
     @Test
     fun `Gets response as instance of class from type reference`() {
         val expectedProject = Project()
-        stubResponse(expectedProject)
         val request = newBuilder().uri(createUri()).GET().build()
+        stubResponse(expectedProject)
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         val actualProject = backendHttpClient.get(PATH, object: TypeReference<Project>() {})
@@ -184,8 +183,8 @@ class BackendHttpClientTest {
     fun `Retrieves response after sending request with Post`() {
         val project = Project()
         val expectedCollaborator = Collaborator()
-        stubResponse(expectedCollaborator)
         val request = stubRequest(project)
+        stubResponse(expectedCollaborator)
         every { httpClientSpy.send(request, ofString()) } returns httpResponseStub
 
         val actualCollaborator = backendHttpClient.postJson(PATH, project, object: TypeReference<Collaborator>() {})
