@@ -5,6 +5,7 @@ jacoco {
 
 def fileFilter = ['**/*$*$*.*',
                   '**/httpclient/factory/HttpClientFactory*',
+                  '**/httpclient/factory/ObjectMapperFactory*',
                   '**/httpclient/ObjectMapper*',
                   '**/httpclient/BackendAddressProvider*',
                   '**/exception/*'

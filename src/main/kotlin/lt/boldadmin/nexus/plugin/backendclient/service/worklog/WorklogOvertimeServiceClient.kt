@@ -6,6 +6,6 @@ import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 class WorklogOvertimeServiceClient(private val httpClient: BackendHttpClient): WorklogOvertimeService {
 
     override fun endOnOvertime() =
-        httpClient.postWithoutBody("/worklog/overtime/end")
+        httpClient.post("/worklog/overtime/end")
 
 }

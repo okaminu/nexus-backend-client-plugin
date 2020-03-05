@@ -3,8 +3,8 @@ package lt.boldadmin.nexus.plugin.backendclient.test.unit.service
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.location.Location
 import lt.boldadmin.nexus.plugin.backendclient.httpclient.BackendHttpClient
 import lt.boldadmin.nexus.plugin.backendclient.service.ProjectServiceClient
 import org.junit.jupiter.api.Assertions.assertSame
@@ -55,7 +55,7 @@ class ProjectServiceClientTest {
 
         projectServiceClient.updateLocation(projectId, location)
 
-        verify(httpClientSpy).postAsJson("/project/$projectId/attribute/location/update", location)
+        verify(httpClientSpy).postJson("/project/$projectId/attribute/location/update", location)
     }
 
     @Test
