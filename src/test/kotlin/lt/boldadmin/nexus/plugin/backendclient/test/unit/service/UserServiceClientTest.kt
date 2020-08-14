@@ -110,6 +110,17 @@ class UserServiceClientTest {
     }
 
     @Test
+    fun `Gets user by collaborator id`() {
+        val expectedUser = User()
+        val collaboratorId = "collaboratorId"
+        doReturn(expectedUser).`when`(httpClientSpy).get("/user/collaborator/$collaboratorId", User::class.java)
+
+        val actualUser = userServiceClient.getByCollaboratorId(collaboratorId)
+
+        assertSame(expectedUser, actualUser)
+    }
+
+    @Test
     fun `Gets user by email`() {
         val expectedUser = User()
         val email = "email"

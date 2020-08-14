@@ -27,6 +27,9 @@ class UserServiceClient(private val httpClient: BackendHttpClient): UserService 
 
     override fun getByProjectId(projectId: String) = httpClient.get("/user/project/$projectId", User::class.java)
 
+    override fun getByCollaboratorId(collaboratorId: String) =
+        httpClient.get("/user/collaborator/$collaboratorId", User::class.java)
+
     override fun getCollaborators(userId: String) =
         httpClient.get("/user/$userId/collaborators", object: TypeReference<Set<Collaborator>>() {})
 
